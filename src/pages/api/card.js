@@ -2,6 +2,8 @@ import axios from "axios";
 import nunjucks from "nunjucks";
 import path from "path";
 
+import themes from "../../themes.js";
+
 import { get_color_from_rank } from "../../scripts/common.js";
 
 nunjucks.configure(path.join(process.cwd(), "src/template"), {
@@ -28,7 +30,13 @@ function count_submissions(submissions) {
 
 export default async function handler(req, res) {
   return new Promise((resolve, reject) => {
-    const { username, forceUsername } = req.query;
+    const { username, forceUsername, theme = "default" } = req.query;
+
+    if (themes[theme] == undefined) {
+      res.status(404).send("Theme not found");
+      resolve();
+      return;
+    }
 
     Promise.all([
       axios.get(`https://codeforces.com/api/user.info?handles=${username}`),
@@ -78,6 +86,7 @@ export default async function handler(req, res) {
             contribution,
             categoryColor: get_color_from_rank(rating),
             maxCategoryColor: get_color_from_rank(maxRating),
+            theme: themes[theme],
           })
         );
         resolve();

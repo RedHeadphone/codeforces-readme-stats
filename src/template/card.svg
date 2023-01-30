@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="gh-dark-mode-only" width="360" height="255">
+<svg xmlns="http://www.w3.org/2000/svg" id="gh-dark-mode-only" width="360" height="223">
 <style>
   svg {
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
@@ -7,23 +7,18 @@
   }
 
   #background {
-    width: calc(100% - 10px);
-    height: calc(100% - 10px);
-    fill: white;
-    stroke: rgb(225, 228, 232);
-    stroke-width: 1px;
-    rx: 6px;
-    ry: 6px;
-  }
-
-  #gh-dark-mode-only:target #background {
-    fill: #0d1117;
-    stroke-width: 0.5px;
+    width: calc(100% - 1px);
+    height: calc(100% - 1px);
+    fill: #{{ theme.bg_color }};
+    stroke: #{{ theme.border_color }};
+    stroke-width: 1;
+    rx: 4px;
+    ry: 4px;
   }
 
   foreignObject {
-    width: calc(100% - 10px - 32px);
-    height: calc(100% - 10px - 32px);
+    width: calc(100% - 1px - 32px);
+    height: calc(100% - 1px - 32px);
   }
 
   table {
@@ -38,28 +33,20 @@
     text-align: left;
     font-size: 14px;
     font-weight: 600;
-    color: rgb(3, 102, 214);
-  }
-
-  #gh-dark-mode-only:target th {
-    color: #58a6ff;
+    color: #{{ theme.title_color }};
   }
 
   td {
     margin-bottom: 16px;
     margin-top: 8px;
-    padding: 0.25em;
+    padding: 0.15em;
     font-size: 12px;
     line-height: 18px;
-    color: rgb(88, 96, 105);
-  }
-
-  #gh-dark-mode-only:target td {
-    color: #c9d1d9;
+    color: #{{ theme.text_color }};
   }
 
   .octicon {
-    fill: rgb(88, 96, 105);
+    fill: #{{ theme.icon_color }};
     margin-right: 1ch;
     vertical-align: top;
   }
@@ -68,29 +55,26 @@
     margin-right: 1ch;
   }
 
-  #gh-dark-mode-only:target .octicon {
-    fill: #8b949e;
-  }
-
 </style>
 <g>
-  <rect x="5" y="5" id="background"/>
+  <rect x="0.5" y="0.5" id="background"/>
   <g>
-    <foreignObject x="21" y="21" width="318" height="200">
+    <foreignObject x="16.5" y="16.5">
       <div xmlns="http://www.w3.org/1999/xhtml">
         <table>
           <thead>
             <tr style="transform: translateX(0);">
-              <th colspan="2" style="padding-bottom: 0; padding-left: 4px;">
+              <th colspan="2" style="padding-bottom: 0; padding-left: 4px; display:flex; align-items: center;">
                 <svg xmlns="http://www.w3.org/2000/svg" class="logo" width="32" height="25" viewBox="0 0 32 25" fill="none">
                   <rect y="6" width="8" height="18.125" rx="2" fill="#FFC107"/>
                   <rect x="24" y="10.125" width="8" height="14" rx="2" fill="#F44336"/>
                   <rect x="12" width="8" height="24.125" rx="2" fill="#2196F3"/>
-                </svg> {{ name }}'s CodeForces Stats
+                </svg>
+                <span style="padding-top: 6px;" >{{ name }}'s CodeForces Stats</span>
               </th>
             </tr>
             <tr>
-              <td style="padding-bottom: 15px; white-space: nowrap;">
+              <td style="padding-bottom: 10px; white-space: nowrap;">
                 <span style="color: {{ categoryColor }}; font-weight: bold">{{ category }} </span> (max: <span style="color: {{ maxCategoryColor }}; font-weight: bold">{{ maxCategory }}</span>)
               </td>
             </tr>
@@ -118,7 +102,7 @@
             <tr style="animation-delay: 450ms">
               <td>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-all octicon" viewBox="0 0 16 16">
-                  <path fill="none" stroke="currentColor" stroke-width="1" d="M8 10a4 4 0 0 1 -4 -4V0.667h8v5.333a4 4 0 0 1 -4 4ZM4 2H0.667v2.667c0 1.673 1.194 2.667 2.667 2.667h0.667V2Zm8 5.333h0.667c1.473 0 2.667 -0.994 2.667 -2.667V2h-3.333v5.333ZM3.333 15.333h9.333v-2.667H3.333v2.667Zm7.333 -2.667a2.667 2.667 0 1 0 -5.333 0"/>
+                  <path d="M14.5 2h-3c-0.011 0 -0.02 0.005 -0.03 0.006 -0.326 -0.562 -0.683 -0.872 -0.71 -0.893A0.501 0.501 0 0 0 10.443 1h-4.886a0.497 0.497 0 0 0 -0.317 0.114c-0.026 0.021 -0.385 0.331 -0.71 0.893C4.52 2.006 4.511 2 4.5 2H1.5a0.498 0.498 0 0 0 -0.497 0.555c0.17 1.53 1.284 4.469 4.257 4.888a12.252 12.252 0 0 0 1.155 1.401c0.024 0.025 0.056 0.039 0.084 0.059V10h-1a0.5 0.5 0 0 0 -0.5 0.5v1.5H4a0.5 0.5 0 0 0 -0.5 0.5v2a0.5 0.5 0 0 0 0.5 0.5h8a0.5 0.5 0 0 0 0.5 -0.5v-2a0.5 0.5 0 0 0 -0.5 -0.5h-1v-1.5a0.5 0.5 0 0 0 -0.5 -0.5h-1v-1.097c0.029 -0.019 0.06 -0.034 0.084 -0.059a12.315 12.315 0 0 0 1.155 -1.401c2.974 -0.418 4.088 -3.357 4.257 -4.888a0.498 0.498 0 0 0 -0.124 -0.389A0.495 0.495 0 0 0 14.5 2zM2.102 3h2.028c-0.058 0.227 -0.105 0.466 -0.121 0.732 -0.051 0.805 0.129 1.639 0.534 2.497C2.926 5.574 2.314 3.887 2.102 3zM11.5 14H4.5v-1h7v1zm-1.5 -2h-4v-1h4v1zm-2.5 -2v-1h1v1h-1zm1.505 -2h-2.01c-1.391 -1.51 -2.061 -2.917 -1.99 -4.184 0.053 -0.962 0.527 -1.576 0.752 -1.815h4.486c0.226 0.241 0.699 0.855 0.752 1.816 0.07 1.268 -0.599 2.675 -1.99 4.184zm2.455 -1.776c0.404 -0.856 0.583 -1.689 0.532 -2.494A3.913 3.913 0 0 0 11.871 3h2.023c-0.218 0.882 -0.839 2.568 -2.434 3.224z"/>
                 </svg>Contests
               </td>
               <td> {{ contests }}</td>
