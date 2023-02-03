@@ -92,7 +92,6 @@ export default async function handler(req, res) {
         resolve();
       })
       .catch((error) => {
-        console.log(error);
         res.status(404).send("User not found");
         resolve();
       });
