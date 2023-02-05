@@ -6,10 +6,6 @@ import themes from "../../themes.js";
 
 import { get_color_from_rank } from "../../scripts/common.js";
 
-nunjucks.configure(path.join(process.cwd(), "src/template"), {
-  autoescape: true,
-});
-
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -28,9 +24,21 @@ function count_submissions(submissions) {
   return count;
 }
 
+function word_count(str) { 
+  return str.split(" ").length;
+}
+
+function check_overflow(category,maxCategory){
+  return ( word_count(category) + word_count(maxCategory) )>3;
+}
+
 export default async function handler(req, res) {
   return new Promise((resolve, reject) => {
-    const { username, forceUsername, theme = "default" } = req.query;
+    const { username, forceusername, theme = "default" } = req.query;
+
+    nunjucks.configure(path.join(process.cwd(), "src/template"), {
+      autoescape: true,
+    });
 
     if (themes[theme] == undefined) {
       res.status(404).send("Theme not found");
@@ -57,7 +65,7 @@ export default async function handler(req, res) {
         } = responses[0].data.result[0];
         let name;
         if (
-          forceUsername ||
+          forceusername ||
           (firstName == undefined && lastName == undefined)
         ) {
           name = username;
@@ -79,6 +87,7 @@ export default async function handler(req, res) {
             rating,
             category,
             maxCategory,
+            breakCategory: check_overflow(category,maxCategory),
             maxRating,
             contests,
             problemsSolved,
