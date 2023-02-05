@@ -375,8 +375,8 @@ const themes = {
       bg_color: "170F0C",
     },
     dark_lc: {
-      title_color: "f0f0f0",
-      text_color: "f0f0f0",
+      title_color: "D0D0D0",
+      text_color: "D0D0D0",
       icon_color: "2196F3",
       border_color: "404040",
       bg_color: "101010",
