@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="gh-dark-mode-only" width="500" height="{% if breakCategory %}310{% else %}290{% endif %}">
+<svg xmlns="http://www.w3.org/2000/svg" id="gh-dark-mode-only" width="500" height="{% if breakCategory %}315{% else %}290{% endif %}">
+<title>{{ name }}'s Codeforces Stats</title>
 <style>
   svg {
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
     font-size: 14px;
     line-height: 21px;
   }
@@ -32,7 +32,8 @@
     padding-top: 0;
     text-align: left;
     font-size: 24px;
-    font-weight: 600;
+    font-family: 'Segoe UI', Ubuntu, Sans-Serif;
+    font-weight: bold;
     color: #{{ theme.title_color }};
   }
 
@@ -42,6 +43,8 @@
     padding: 0.3em;
     padding-left: 0.15em;
     font-size: 18px;
+    font-family: 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif;
+    font-weight: 600;
     line-height: 18px;
     color: #{{ theme.text_color }};
   }
@@ -66,7 +69,7 @@
 <g>
   <rect x="0.5" y="0.5" id="background"/>
   <g>
-    <foreignObject x="16.5" y="16.5">
+    <foreignObject x="17" y="17">
       <div xmlns="http://www.w3.org/1999/xhtml">
         <table>
           <thead>
