@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="gh-dark-mode-only" width="500" height="{% if breakCategory %}315{% else %}290{% endif %}">
+<svg xmlns="http://www.w3.org/2000/svg" id="gh-dark-mode-only" width="380" height="{% if breakCategory %}315{% else %}290{% endif %}">
 <title>{{ name }} | Codeforces Stats</title>
 <style>
   svg {

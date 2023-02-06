@@ -29,12 +29,12 @@ function word_count(str) {
 }
 
 function check_overflow(category,maxCategory){
-  return ( word_count(category) + word_count(maxCategory) )>3;
+  return ( word_count(category) + word_count(maxCategory) )>2;
 }
 
 export default async function handler(req, res) {
   return new Promise((resolve, reject) => {
-    const { username, forceusername, theme = "default" } = req.query;
+    const { username, forceusername, theme = "default", title_color, text_color, icon_color, border_color, bg_color } = req.query;
 
     nunjucks.configure(path.join(process.cwd(), "src/template"), {
       autoescape: true,
@@ -81,6 +81,13 @@ export default async function handler(req, res) {
         const problemsSolved = count_submissions(
           responses[2].data.result
         );
+        const colorScheme = {title_color, text_color, icon_color, border_color, bg_color}
+        Object.keys(colorScheme).forEach((key) => (colorScheme[key] == undefined) && delete colorScheme[key]);
+        const themeConfig = {
+          ...themes["default"],
+          ...themes[theme],
+          ...colorScheme
+        };
         res.send(
           nunjucks.render("card.svg", {
             name,
@@ -95,7 +102,7 @@ export default async function handler(req, res) {
             contribution,
             categoryColor: get_color_from_rank(rating),
             maxCategoryColor: get_color_from_rank(maxRating),
-            theme: themes[theme],
+            theme: themeConfig,
           })
         );
         resolve();
