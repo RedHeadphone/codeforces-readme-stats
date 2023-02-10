@@ -53,7 +53,7 @@ export default async function handler(req, res) {
     ])
       .then((responses) => {
         res.setHeader("Content-Type", "image/svg+xml");
-        const {
+        let {
           firstName,
           lastName,
           rating,
@@ -63,6 +63,10 @@ export default async function handler(req, res) {
           friendOfCount,
           contribution,
         } = responses[0].data.result[0];
+
+        rating = rating?rating:0
+        maxRating = maxRating?maxRating:0
+
         let name;
         if (
           force_username ||
@@ -73,8 +77,8 @@ export default async function handler(req, res) {
           name = `${firstName} ${lastName}`.toString();
           name = name.replace("undefined", "").trim();
         }
-        const category = capitalize(rank);
-        const maxCategory = capitalize(maxRank);
+        const category = rank?capitalize(rank):"Unrated";
+        const maxCategory = maxRank?capitalize(maxRank):"Unrated";
 
         const contests = responses[1].data.result.length;
 
