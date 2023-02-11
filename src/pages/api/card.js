@@ -4,7 +4,7 @@ import path from "path";
 
 import themes from "../../themes.js";
 
-import { get_color_from_rank, CONSTANTS } from "../../scripts/common.js";
+import { get_color_from_rank, CONSTANTS, clampValue } from "../../scripts/common.js";
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -67,7 +67,7 @@ export default async function handler(req, res) {
             cacheSeconds / 2
           }, s-maxage=${cacheSeconds}, stale-while-revalidate=${CONSTANTS.ONE_DAY}`,
         );
-        
+
         let {
           firstName,
           lastName,

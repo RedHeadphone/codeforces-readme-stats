@@ -1,6 +1,7 @@
 # Codeforces Readme Stats
 
 Show your dynamically generated Codeforces stats on your GitHub profile or your website!
+
 Check the [docs](https://redheadphone.github.io/Codeforces-readme-stats/) for information on how to use the API.
 
 ## Features

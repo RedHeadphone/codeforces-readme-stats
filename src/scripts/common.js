@@ -28,3 +28,8 @@ export const CONSTANTS = {
     FOUR_HOURS: 14400,
     ONE_DAY: 86400,
   };
+
+export const clampValue = (number, min, max) => {
+    if (Number.isNaN(parseInt(number))) return min;
+    return Math.max(min, Math.min(number, max));
+};

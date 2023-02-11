@@ -2,7 +2,7 @@ import axios from 'axios';
 import nunjucks from 'nunjucks';
 import path from 'path';
 
-import { get_color_from_rank, CONSTANTS } from "../../scripts/common.js";
+import { get_color_from_rank, CONSTANTS, clampValue } from "../../scripts/common.js";
 
 nunjucks.configure(path.join(process.cwd(), 'src/template'),{ autoescape: true });
 
