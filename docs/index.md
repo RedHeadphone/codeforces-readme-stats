@@ -9,7 +9,7 @@ Show your dynamically generated Codeforces stats on your GitHub profile or your 
 - 🎨 Multiple themes - [Theme](./themes.md)
 - ⚙️ Fully customizable - [Customization](./customization.md)
 - 🚫 No tracking, controlable cache
-- 🍀 Open source - [MIT License](https://github.com/RedHeadphone/Codeforces-readme-stats/LICENSE)
+- 🍀 Open source - [MIT License](https://github.com/RedHeadphone/Codeforces-readme-stats/blob/master/LICENSE)
 
 Want to contribute? Feel free to open a pull request!
 
