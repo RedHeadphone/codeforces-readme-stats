@@ -1,13 +1,13 @@
+
 # Codeforces Readme Stats
 
 Show your dynamically generated Codeforces stats on your GitHub profile or your website!
-Check the [docs](https://redheadphone.github.io/Codeforces-readme-stats/) for information on how to use the API.
 
 ## Features
 
 - 📈 Clean and simple Codeforces stats
-- 🎨 Multiple themes - [Theme](docs/themes.md)
-- ⚙️ Fully customizable - [Customization](docs/customization.md)
+- 🎨 Multiple themes - [Theme](./themes.md)
+- ⚙️ Fully customizable - [Customization](./customization.md)
 - 🚫 No tracking, controlable cache
 - 🍀 Open source - [MIT License](https://github.com/RedHeadphone/Codeforces-readme-stats/LICENSE)
 
@@ -28,11 +28,3 @@ Want a hyperlink? Try this:
 ```md
 [![Codeforces Stats](https://codeforces-readme-stats.vercel.app/api/card?username=redheadphone)](https://codeforces.com/profile/redheadphone)
 ```
-
-## Acknowledgements
-
-### Inspirations
-
-- [sudiptob2/cf-stats](https://github.com/sudiptob2/cf-stats): SVG design
-- [anuraghazra/github-readme-stats](https://github.com/anuraghazra/github-readme-stats): API design and themes
-- [JacobLinCool/LeetCode-Stats-Card](https://github.com/JacobLinCool/LeetCode-Stats-Card): Miscellaneous

@@ -1,0 +1,58 @@
+site_name: Codeforces Readme Stats
+site_description: Dynamically generated Codeforces stats for your Github profiles or your website
+site_url: https://redheadphone.github.io/Codeforces-readme-stats/
+site_author: RedHeadphone
+repo_name: Codeforces-readme-stats
+repo_url: https://github.com/RedHeadphone/Codeforces-readme-stats/
+theme:
+  name: material
+  language: en
+  palette:
+    - scheme: default
+      primary: black
+      accent: green
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode
+
+    - scheme: slate
+      primary: default
+      accent: green
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+
+  logo: images/logo.png
+  favicon: images/favicon.ico
+  features:
+    - content.code.annotate
+    - content.code.copy
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/RedHeadphone
+      name: RedHeadphone on Github
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/huzaifa_Khila
+      name: Huzaifa Khilawala on Twitter
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/huzaifa-khilawala/
+      name: Huzaifa Khilawala on Linkedin
+
+  
+copyright: Copyright &copy; 2023 Huzaifa Khilawala
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - attr_list
+
+plugins:
+  - search
+  
+nav:
+  - About: index.md
+  - Themes: themes.md
+  - Customization: customization.md
+  - Acknowledgments: acknowledgments.md

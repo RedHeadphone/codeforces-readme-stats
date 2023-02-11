@@ -34,7 +34,7 @@ function check_overflow(category,maxCategory){
 
 export default async function handler(req, res) {
   return new Promise((resolve, reject) => {
-    const { username, force_username, theme = "default", title_color, text_color, icon_color, border_color, bg_color, disable_animation } = req.query;
+    const { username, force_username, theme = "default", title_color, text_color, icon_color, border_color, bg_color, disable_animations } = req.query;
 
     nunjucks.configure(path.join(process.cwd(), "src/template"), {
       autoescape: true,
@@ -107,7 +107,7 @@ export default async function handler(req, res) {
             categoryColor: get_color_from_rank(rating),
             maxCategoryColor: get_color_from_rank(maxRating),
             theme: themeConfig,
-            animation: !disable_animation,
+            animation: !disable_animations,
           })
         );
         resolve();
