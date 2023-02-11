@@ -4,7 +4,7 @@ import path from "path";
 
 import themes from "../../themes.js";
 
-import { get_color_from_rank } from "../../scripts/common.js";
+import { get_color_from_rank, CONSTANTS } from "../../scripts/common.js";
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -34,13 +34,14 @@ function check_overflow(category,maxCategory){
 
 export default async function handler(req, res) {
   return new Promise((resolve, reject) => {
-    const { username, force_username, theme = "default", title_color, text_color, icon_color, border_color, bg_color, disable_animations } = req.query;
+    const { username, force_username, theme = "default", title_color, text_color, icon_color, border_color, bg_color, cache_seconds, disable_animations } = req.query;
 
     nunjucks.configure(path.join(process.cwd(), "src/template"), {
       autoescape: true,
     });
 
     if (themes[theme] == undefined) {
+      res.setHeader("Cache-Control", `no-cache, no-store, must-revalidate`);
       res.status(404).send("Theme not found");
       resolve();
       return;
@@ -53,6 +54,20 @@ export default async function handler(req, res) {
     ])
       .then((responses) => {
         res.setHeader("Content-Type", "image/svg+xml");
+
+        const cacheSeconds = clampValue(
+          parseInt(cache_seconds || CONSTANTS.FOUR_HOURS, 10),
+          CONSTANTS.FOUR_HOURS,
+          CONSTANTS.ONE_DAY,
+        );
+    
+        res.setHeader(
+          "Cache-Control",
+          `max-age=${
+            cacheSeconds / 2
+          }, s-maxage=${cacheSeconds}, stale-while-revalidate=${CONSTANTS.ONE_DAY}`,
+        );
+        
         let {
           firstName,
           lastName,
@@ -113,6 +128,7 @@ export default async function handler(req, res) {
         resolve();
       })
       .catch((error) => {
+        res.setHeader("Cache-Control", `no-cache, no-store, must-revalidate`);
         res.status(404).send("User not found");
         resolve();
       });

@@ -15,6 +15,8 @@ Want to contribute? Feel free to open a pull request!
 
 ## Usage
 
+### Codeforces stats card
+
 Simply copy the code below, paste it into your `README.md`, and change the username query parameter to your Codeforces username (case-insensitive).
 
 ```md
@@ -27,6 +29,14 @@ Want a hyperlink? Try this:
 
 ```md
 [![Codeforces Stats](https://codeforces-readme-stats.vercel.app/api/card?username=redheadphone)](https://codeforces.com/profile/redheadphone)
+```
+
+### Codeforces rating badge
+
+Rating badge can also be added to your `README.md`, by coping and pasting the code below 
+
+```md
+![Codeforces Badge](https://codeforces-readme-stats.vercel.app/api/badge?username=redheadphone)
 ```
 
 ## Acknowledgements

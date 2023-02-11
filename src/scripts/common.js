@@ -21,3 +21,10 @@ export function get_color_from_rank(rank){
     }
 
 }
+
+export const CONSTANTS = {
+    THIRTY_MINUTES: 1800,
+    TWO_HOURS: 7200,
+    FOUR_HOURS: 14400,
+    ONE_DAY: 86400,
+  };
