@@ -4,7 +4,7 @@ import path from "path";
 
 import themes from "../../themes.js";
 
-import { get_color_from_rank, CONSTANTS, clampValue } from "../../scripts/common.js";
+import { get_color_from_rating, CONSTANTS, clampValue } from "../../scripts/common.js";
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -119,8 +119,8 @@ export default async function handler(req, res) {
             problemsSolved,
             friendOfCount,
             contribution,
-            categoryColor: get_color_from_rank(rating),
-            maxCategoryColor: get_color_from_rank(maxRating),
+            categoryColor: get_color_from_rating(rating),
+            maxCategoryColor: get_color_from_rating(maxRating),
             theme: themeConfig,
             animation: !disable_animations,
           })

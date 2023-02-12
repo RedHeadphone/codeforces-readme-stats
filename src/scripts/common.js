@@ -1,4 +1,4 @@
-export function get_color_from_rank(rank){
+export function get_color_from_rating(rank){
     switch (true) {
         case rank<1200:
             return "#8b898b";

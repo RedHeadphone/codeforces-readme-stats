@@ -2,7 +2,7 @@ import axios from 'axios';
 import nunjucks from 'nunjucks';
 import path from 'path';
 
-import { get_color_from_rank, CONSTANTS, clampValue } from "../../scripts/common.js";
+import { get_color_from_rating, CONSTANTS, clampValue } from "../../scripts/common.js";
 
 nunjucks.configure(path.join(process.cwd(), 'src/template'),{ autoescape: true });
 
@@ -30,7 +30,7 @@ export default async function handler(req, res) {
                 );
 
                 const { rating } = response.data.result[0];
-                res.send(nunjucks.render('badge.svg', { rating: rating, color: get_color_from_rank(rating) }));
+                res.send(nunjucks.render('badge.svg', { rating: rating, color: get_color_from_rating(rating) }));
                 resolve();
         }).catch(error => {
             res.setHeader("Cache-Control", `no-cache, no-store, must-revalidate`);
