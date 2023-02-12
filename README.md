@@ -24,6 +24,12 @@ Simply copy the code below, paste it into your `README.md`, and change the usern
 ![Codeforces Stats](https://codeforces-readme-stats.vercel.app/api/card?username=redheadphone)
 ```
 
+Preview:
+
+<p align="center">
+  <img alt="Codeforces Stats" src="https://codeforces-readme-stats.vercel.app/api/card?username=redheadphone" />
+</p>
+
 Congratulation! You are now showing your Codeforces stats on your profile!
 
 Want a hyperlink? Try this:
@@ -39,6 +45,12 @@ Rating badge can also be added to your `README.md`, by coping and pasting the co
 ```md
 ![Codeforces Badge](https://codeforces-readme-stats.vercel.app/api/badge?username=redheadphone)
 ```
+
+Preview:
+
+<p align="center">
+  <img alt="Codeforces Badge" style="height:30px" src="https://codeforces-readme-stats.vercel.app/api/badge?username=redheadphone" />
+</p>
 
 ## Acknowledgements
 
