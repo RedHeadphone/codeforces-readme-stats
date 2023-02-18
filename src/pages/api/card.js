@@ -4,11 +4,7 @@ import path from "path";
 
 import themes from "../../themes.js";
 
-import { get_color_from_rating, CONSTANTS, clampValue } from "../../scripts/common.js";
-
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+import { get_color_from_rating, CONSTANTS, clamp_value, capitalize, word_count } from "../../common.js";
 
 function count_submissions(submissions) {
   let alreadySolved = {};
@@ -24,21 +20,37 @@ function count_submissions(submissions) {
   return count;
 }
 
-function word_count(str) { 
-  return str.split(" ").length;
-}
-
 function check_overflow(category,maxCategory){
   return ( word_count(category) + word_count(maxCategory) )>2;
+}
+
+export function renderCard(name, rating, category, maxCategory, maxRating, contests, problemsSolved, friendOfCount, contribution, themeConfig, disable_animations){
+    nunjucks.configure(path.join(process.cwd(), "src/template"), {
+        autoescape: true,
+      });
+    return nunjucks.render("card.svg", {
+        name,
+        rating,
+        category,
+        maxCategory,
+        breakCategory: check_overflow(category,maxCategory),
+        maxRating,
+        contests,
+        problemsSolved,
+        friendOfCount,
+        contribution,
+        categoryColor: get_color_from_rating(rating),
+        maxCategoryColor: get_color_from_rating(maxRating),
+        theme: themeConfig,
+        animation: !disable_animations,
+      })
 }
 
 export default async function handler(req, res) {
   return new Promise((resolve, reject) => {
     const { username, force_username, theme = "default", title_color, text_color, icon_color, border_color, bg_color, cache_seconds, disable_animations } = req.query;
 
-    nunjucks.configure(path.join(process.cwd(), "src/template"), {
-      autoescape: true,
-    });
+    
 
     if (themes[theme] == undefined) {
       res.setHeader("Cache-Control", `no-cache, no-store, must-revalidate`);
@@ -55,7 +67,7 @@ export default async function handler(req, res) {
       .then((responses) => {
         res.setHeader("Content-Type", "image/svg+xml");
 
-        const cacheSeconds = clampValue(
+        const cacheSeconds = clamp_value(
           parseInt(cache_seconds || CONSTANTS.FOUR_HOURS, 10),
           CONSTANTS.FOUR_HOURS,
           CONSTANTS.ONE_DAY,
@@ -100,6 +112,7 @@ export default async function handler(req, res) {
         const problemsSolved = count_submissions(
           responses[2].data.result
         );
+
         const colorScheme = {title_color, text_color, icon_color, border_color, bg_color}
         Object.keys(colorScheme).forEach((key) => (colorScheme[key] == undefined) && delete colorScheme[key]);
         const themeConfig = {
@@ -107,23 +120,9 @@ export default async function handler(req, res) {
           ...themes[theme],
           ...colorScheme
         };
+
         res.send(
-          nunjucks.render("card.svg", {
-            name,
-            rating,
-            category,
-            maxCategory,
-            breakCategory: check_overflow(category,maxCategory),
-            maxRating,
-            contests,
-            problemsSolved,
-            friendOfCount,
-            contribution,
-            categoryColor: get_color_from_rating(rating),
-            maxCategoryColor: get_color_from_rating(maxRating),
-            theme: themeConfig,
-            animation: !disable_animations,
-          })
+          renderCard(name, rating, category, maxCategory, maxRating, contests, problemsSolved, friendOfCount, contribution, themeConfig, disable_animations)
         );
         resolve();
       })
