@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="380" height="{% if breakCategory %}315{% else %}290{% endif %}">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="380" height="{{ height }}"
+    viewBox="0 0 380 {{ height }}">
 <title>{{ name }} | Codeforces Stats</title>
 <style>
   svg {

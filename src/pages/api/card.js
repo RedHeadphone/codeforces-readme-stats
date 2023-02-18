@@ -34,6 +34,7 @@ export function renderCard(name, rating, category, maxCategory, maxRating, conte
         category,
         maxCategory,
         breakCategory: check_overflow(category,maxCategory),
+        height: 290 + (check_overflow(category,maxCategory)?25:0),
         maxRating,
         contests,
         problemsSolved,
