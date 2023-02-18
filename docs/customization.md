@@ -10,4 +10,5 @@ You can customize the appearance of your `Stats Card` however you wish with URL 
 -   `theme` - Name of the theme, choose from [all available themes](./themes.md). Default: `default` theme. 
 -   `force_username` - Forces the username to be shown in the card _(boolean)_. Default: `false`.
 -   `disable_animations` - Disables all animations in the card _(boolean)_. Default: `false`.
+-   `show_icons` - Shows icons in the card _(boolean)_. Default: `true`.
 -   `cache_seconds` - Set the cache header manually _(min: 14400, max: 86400)_. Default: `14400 seconds (4 hours)`.

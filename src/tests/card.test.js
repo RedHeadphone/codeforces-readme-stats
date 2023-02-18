@@ -21,9 +21,10 @@ describe("renderCard", () => {
                 bg_color: "fffefe",
                 border_color: "e4e2e2",
             },
-            disable_animations: true
+            disable_animations: true,
+            show_icons: true,
         }
-        document.body.innerHTML = renderCard(data.name, data.rating, data.category, data.maxCategory, data.maxRating, data.contests, data.problemsSolved, data.friendOfCount, data.contribution, data.themeConfig, data.disable_animations);
+        document.body.innerHTML = renderCard(data.name, data.rating, data.category, data.maxCategory, data.maxRating, data.contests, data.problemsSolved, data.friendOfCount, data.contribution, data.themeConfig, data.disable_animations, data.show_icons);
         const name = document.querySelector("#name").innerHTML;
         expect(name).toBe(data.name);
         const rating = document.querySelector("#rating").innerHTML;

@@ -24,7 +24,7 @@ function check_overflow(category,maxCategory){
   return ( word_count(category) + word_count(maxCategory) )>2;
 }
 
-export function renderCard(name, rating, category, maxCategory, maxRating, contests, problemsSolved, friendOfCount, contribution, themeConfig, disable_animations){
+export function renderCard(name, rating, category, maxCategory, maxRating, contests, problemsSolved, friendOfCount, contribution, themeConfig, disable_animations, show_icons){
     nunjucks.configure(path.join(process.cwd(), "src/template"), {
         autoescape: true,
       });
@@ -43,12 +43,13 @@ export function renderCard(name, rating, category, maxCategory, maxRating, conte
         maxCategoryColor: get_color_from_rating(maxRating),
         theme: themeConfig,
         animation: !disable_animations,
+        show_icons: show_icons
       })
 }
 
 export default async function handler(req, res) {
   return new Promise((resolve, reject) => {
-    const { username, force_username, theme = "default", title_color, text_color, icon_color, border_color, bg_color, cache_seconds, disable_animations } = req.query;
+    let { username, force_username, theme = "default", title_color, text_color, icon_color, border_color, bg_color, cache_seconds, disable_animations, show_icons } = req.query;
 
     
 
@@ -120,9 +121,11 @@ export default async function handler(req, res) {
           ...themes[theme],
           ...colorScheme
         };
+        
+        show_icons = show_icons? show_icons=="true" : true;
 
         res.send(
-          renderCard(name, rating, category, maxCategory, maxRating, contests, problemsSolved, friendOfCount, contribution, themeConfig, disable_animations)
+          renderCard(name, rating, category, maxCategory, maxRating, contests, problemsSolved, friendOfCount, contribution, themeConfig, disable_animations, show_icons)
         );
         resolve();
       })
