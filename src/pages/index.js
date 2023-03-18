@@ -4,18 +4,27 @@ import { GithubFilled, BookFilled } from '@ant-design/icons';
 import { Space, Card, Col, Form, Input, Select, Radio, Button, Divider, Row } from "antd";
 import themes from "../themes.js";
 
+import { useEffect,useState } from "react";
 import Logo from "../assets/images/logo.png";
 import useOption from "../hooks/Option.js";
+import Loader from "../assets/images/loader.svg"
 
 export default function Home() {
-
+  const [loading, setLoading] = useState(true);
   const {options, setOptions, getImgUrl} = useOption();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
 
   const onFinish = (values) => {
     setOptions(values);
   };
-  
-  return (
+  return loading?<div className="main-body">
+      <Image src={Loader} width={100} height={100}/>
+    </div> : (
     <>
       <Head>
         <title>Codeforces Readme Stats</title>
