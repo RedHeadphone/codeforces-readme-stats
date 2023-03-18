@@ -8,10 +8,12 @@ import { useEffect,useState } from "react";
 import Logo from "../assets/images/logo.png";
 import useOption from "../hooks/Option.js";
 import Loader from "../assets/images/loader.svg"
+import Error from "../assets/images/error.svg"
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const {options, setOptions, getImgUrl} = useOption();
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -19,7 +21,12 @@ export default function Home() {
     }, 2000);
   }, []);
 
+  const onError = () => {
+    setError(true);
+  };
+
   const onFinish = (values) => {
+    setError(false);
     setOptions(values);
   };
   return loading?<div className="main-body">
@@ -32,12 +39,12 @@ export default function Home() {
           name="description"
           content="⚡ Dynamically generated Codeforces stats for your Github profile!"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Space className="main-body">
         <Card className="card">
-          <Col>
+          <Col className="card-col">
           
             <div className="header">
             <Space>
@@ -50,8 +57,9 @@ export default function Home() {
               </p>
             </div>
 
-            <Row>
+            <Row className="row" gutter={[10,10]}>
             
+            <Col>
             <Form
               className="form"
               name="basic"
@@ -122,12 +130,13 @@ export default function Home() {
                   Generate
                 </Button>
               </Form.Item>
-              </Form>
-            
-            <Space width="100"/>
-            <div className="image-output">
-              <Image src={getImgUrl()} alt="Codeforces-Stats" fill="width"/>
-            </div>
+            </Form>
+              </Col>
+              
+            <Col className="image-output">
+              <Image src={error?Error:getImgUrl()} alt="Codeforces-Stats" fill="width" onError={onError}/>
+            </Col>
+
             </Row>
 
             <Divider className="divider"/>

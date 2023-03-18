@@ -20,9 +20,23 @@ a {
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #e7e7e7;
 }
+
+.card{
+  margin: 20px 0px;
+}
+
+@media only screen and (max-width: 850px) {
+  .row{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 
 .header{
   margin-bottom: 40px;
@@ -50,7 +64,6 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 20px;
   min-width: 380px;
 }
 
