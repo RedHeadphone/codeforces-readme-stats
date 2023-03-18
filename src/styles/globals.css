@@ -15,3 +15,60 @@ a {
   text-decoration: none;
 }
 
+.main-body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #e7e7e7;
+}
+
+.header{
+  margin-bottom: 40px;
+}
+
+.header-title{
+  margin-left: 10px;
+}
+
+.form{
+  min-width: 380px;
+}
+
+.form-item{
+  margin-bottom: 10px;
+}
+
+.submit-wrapper{
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.image-output{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+  min-width: 380px;
+}
+
+.image-output > img{
+  position: relative !important;
+  width: 100%;
+}
+
+.divider{
+  margin: 15px 0;
+}
+
+.footer{
+  display: flex;
+  justify-content: space-around;
+  font-size: medium;
+}
+
+.footer a > .anticon{
+  margin-right: 5px;
+}

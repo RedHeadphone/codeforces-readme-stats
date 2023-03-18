@@ -1,7 +1,7 @@
 
 # Codeforces Readme Stats
 
-Show your dynamically generated Codeforces stats on your GitHub profile or your website!
+An API that generates beautiful statistics of your Codeforces profile as an SVG image, perfect for showcasing your competitive programming skills and achievements on Github.
 
 ## Features
 

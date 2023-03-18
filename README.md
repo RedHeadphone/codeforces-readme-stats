@@ -1,6 +1,6 @@
 # Codeforces Readme Stats
 
-Show your dynamically generated Codeforces stats on your GitHub profile or your website!
+An API that generates beautiful statistics of your Codeforces profile as an SVG image, perfect for showcasing your competitive programming skills and achievements on Github.
 
 Check the [docs](https://redheadphone.github.io/Codeforces-readme-stats/) for information on how to use the API.
 
@@ -51,6 +51,10 @@ Preview:
 <p align="center">
   <img alt="Codeforces Badge" style="height:30px" src="https://codeforces-readme-stats.vercel.app/api/badge?username=redheadphone" />
 </p>
+
+## Contributing
+
+Please kindly follow [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
 
 ## Acknowledgements
 

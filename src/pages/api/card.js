@@ -95,6 +95,9 @@ export default async function handler(req, res) {
 
         rating = rating?rating:0
         maxRating = maxRating?maxRating:0
+        show_icons = show_icons? show_icons=="true" : true;
+        disable_animations = disable_animations? disable_animations=="true" : false;
+        force_username = force_username? force_username=="true" : false;
 
         let name;
         if (
@@ -122,8 +125,6 @@ export default async function handler(req, res) {
           ...themes[theme],
           ...colorScheme
         };
-        
-        show_icons = show_icons? show_icons=="true" : true;
 
         res.send(
           renderCard(name, rating, category, maxCategory, maxRating, contests, problemsSolved, friendOfCount, contribution, themeConfig, disable_animations, show_icons)

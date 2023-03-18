@@ -1,4 +1,4 @@
-# Contributing to [codeforces-readme-stats](https://github.com/RedHeadphone/Codeforces-readme-stats)
+# Contributing to [Codeforces readme stats](https://github.com/RedHeadphone/Codeforces-readme-stats)
 
 We love your input! We want to make contributing to this project as easy and transparent as possible, whether it's:
 
