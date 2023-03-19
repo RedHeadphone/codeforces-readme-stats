@@ -2,7 +2,7 @@ import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 
-import { GithubFilled, BookFilled } from '@ant-design/icons';
+import { GithubFilled, BookFilled, ExportOutlined } from '@ant-design/icons';
 import { Space, Card, Col, Form, Input, Select, Radio, Button, Divider, Row } from "antd";
 
 import themes from "../themes.js";
@@ -103,6 +103,7 @@ export default function Home() {
               name="Card Input"
               layout="horizontal"
               labelCol={{ span: 9 }}
+              colon={false}
               initialValues={options}
               onFieldsChange={onFieldsChange}
             >
@@ -168,8 +169,8 @@ export default function Home() {
                 <Button type="primary" onClick={onPreview}>
                   Preview
                 </Button>
-                <Button type="primary" onClick={onOpenInNewTab} disabled={openInNewTabDisabled}>
-                  Open in new tab
+                <Button type="default" onClick={onOpenInNewTab} disabled={openInNewTabDisabled}>
+                  Open in new tab<ExportOutlined />
                 </Button>
                 </Space>
               </Form.Item>
