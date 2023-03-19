@@ -28,6 +28,56 @@ a {
   margin: 20px 0px;
 }
 
+.header{
+  margin-bottom: 40px;
+}
+
+.header-title{
+  margin-left: 10px;
+}
+
+.form{
+  min-width: 380px;
+}
+
+.form-item{
+  margin-bottom: 10px;
+}
+
+.submit-wrapper{
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.image-output{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 380px;
+}
+
+.image-output > img{
+  position: relative !important;
+  width: 100%;
+}
+
+.divider{
+  margin: 15px 0;
+  margin-top: 25px;
+}
+
+.footer{
+  display: flex;
+  justify-content: space-around;
+  font-size: medium;
+}
+
+.footer a > .anticon{
+  margin-right: 5px;
+}
+
+
 @media only screen and (max-width: 500px) {
   .card{
     margin: 0px;
@@ -69,53 +119,4 @@ a {
     align-items: center;
     justify-content: center;
   }
-}
-
-
-.header{
-  margin-bottom: 40px;
-}
-
-.header-title{
-  margin-left: 10px;
-}
-
-.form{
-  min-width: 380px;
-}
-
-.form-item{
-  margin-bottom: 10px;
-}
-
-.submit-wrapper{
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.image-output{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 380px;
-}
-
-.image-output > img{
-  position: relative !important;
-  width: 100%;
-}
-
-.divider{
-  margin: 15px 0;
-}
-
-.footer{
-  display: flex;
-  justify-content: space-around;
-  font-size: medium;
-}
-
-.footer a > .anticon{
-  margin-right: 5px;
 }
