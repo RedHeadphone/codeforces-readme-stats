@@ -24,13 +24,18 @@ const useOption = () => {
         setError(false);
         setQuerystring(qs.stringify(options));
     }
+
+    const checkSame = (values) => {
+        return qs.stringify(values) === querystring;
+    }
     
     return {
         options,
         setOptions,
         getImgUrl,
         setError,
-        updateQuerystring
+        updateQuerystring,
+        checkSame
     };
 }
 

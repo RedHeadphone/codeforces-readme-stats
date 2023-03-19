@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 
@@ -8,20 +8,13 @@ import { Space, Card, Col, Form, Input, Select, Radio, Button, Divider, Row } fr
 import themes from "../themes.js";
 import Logo from "../assets/images/logo.png";
 import useOption from "../hooks/Option.js";
-import Loader from "../assets/images/loader.svg"
 
 
 export default function Home() {
-  const [loading, setLoading] = useState(true);
-  const {options, setOptions, getImgUrl, setError, updateQuerystring} = useOption();
-  const [onOpenInNewTabDisabled, setOnOpenInNewTabDisabled] = useState(true);
+  const {options, setOptions, getImgUrl, setError, updateQuerystring, checkSame} = useOption();
+  const [openInNewTabDisabled, setOpenInNewTabDisabled] = useState(true);
   
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
 
   const onOpenInNewTab = () => {
     window.open(getImgUrl(), "_blank");
@@ -33,28 +26,27 @@ export default function Home() {
 
   const onError = () => {
     setError(true);
-    setOnOpenInNewTabDisabled(true);
+    setOpenInNewTabDisabled(true);
   };
 
   const onLoad = (src) => {
     if (!src.currentTarget.src.includes("error")){
-      setOnOpenInNewTabDisabled(false);
+      setOpenInNewTabDisabled(false);
     }
   };
 
   const onFieldsChange = (changed_value,values) => {
-    setOnOpenInNewTabDisabled(true);
     setOptions((prev) => {
-      return {
+      const newValues = {
         ...prev,
         [changed_value[0].name]: changed_value[0].value,
       };
+      setOpenInNewTabDisabled(!checkSame(newValues));
+      return newValues;
     });
   };
 
-  return loading?<div className="main-body">
-      <Image src={Loader} alt="Loading" width={100} height={100}/>
-    </div> : (
+  return (
     <>
       <Head>
         <title>Codeforces Readme Stats</title>
@@ -152,7 +144,7 @@ export default function Home() {
                 <Button type="primary" onClick={onPreview}>
                   Preview
                 </Button>
-                <Button type="primary" onClick={onOpenInNewTab} disabled={onOpenInNewTabDisabled}>
+                <Button type="primary" onClick={onOpenInNewTab} disabled={openInNewTabDisabled}>
                   Open in new tab
                 </Button>
                 </Space>
