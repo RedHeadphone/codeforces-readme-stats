@@ -28,6 +28,40 @@ a {
   margin: 20px 0px;
 }
 
+@media only screen and (max-width: 500px) {
+  .card{
+    margin: 0px;
+  }
+  .card > div{
+    padding: 15px !important;
+  }
+  .main-body > div{
+    width: 100%;
+  }
+  .header{
+    font-size: small;
+  }
+  .header-title{
+    font-size: x-large;
+    line-height: 85%;
+    margin: 10px 0px;
+  }
+  .form{
+    min-width: unset !important;
+    width: 100%;
+  }
+  .image-output{
+    min-width: unset !important;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .ant-form-item-label{
+    padding: 0px !important;
+  }
+}
+
 @media only screen and (max-width: 850px) {
   .row{
     display: flex;

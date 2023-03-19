@@ -82,10 +82,9 @@ export default function Home() {
 
             <Row className="row" gutter={[10,10]}>
             
-            <Col>
+            <Col className="form">
             <Form
-              className="form"
-              name="basic"
+              name="Card Input"
               layout="horizontal"
               labelCol={{ span: 9 }}
               initialValues={options}
