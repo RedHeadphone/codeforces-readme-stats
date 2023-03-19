@@ -1,19 +1,21 @@
+import { useEffect,useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
+
 import { GithubFilled, BookFilled } from '@ant-design/icons';
 import { Space, Card, Col, Form, Input, Select, Radio, Button, Divider, Row } from "antd";
-import themes from "../themes.js";
 
-import { useEffect,useState } from "react";
+import themes from "../themes.js";
 import Logo from "../assets/images/logo.png";
 import useOption from "../hooks/Option.js";
 import Loader from "../assets/images/loader.svg"
-import Error from "../assets/images/error.svg"
+
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const {options, setOptions, getImgUrl} = useOption();
-  const [error, setError] = useState(false);
+  const {options, setOptions, getImgUrl, setError, updateQuerystring} = useOption();
+  const [onOpenInNewTabDisabled, setOnOpenInNewTabDisabled] = useState(true);
+  
 
   useEffect(() => {
     setTimeout(() => {
@@ -21,16 +23,37 @@ export default function Home() {
     }, 2000);
   }, []);
 
-  const onError = () => {
-    setError(true);
+  const onOpenInNewTab = () => {
+    window.open(getImgUrl(), "_blank");
   };
 
-  const onFinish = (values) => {
-    setError(false);
-    setOptions(values);
+  const onPreview = () => {
+    updateQuerystring();
   };
+
+  const onError = () => {
+    setError(true);
+    setOnOpenInNewTabDisabled(true);
+  };
+
+  const onLoad = (src) => {
+    if (!src.currentTarget.src.includes("error")){
+      setOnOpenInNewTabDisabled(false);
+    }
+  };
+
+  const onFieldsChange = (changed_value,values) => {
+    setOnOpenInNewTabDisabled(true);
+    setOptions((prev) => {
+      return {
+        ...prev,
+        [changed_value[0].name]: changed_value[0].value,
+      };
+    });
+  };
+
   return loading?<div className="main-body">
-      <Image src={Loader} width={100} height={100}/>
+      <Image src={Loader} alt="Loading" width={100} height={100}/>
     </div> : (
     <>
       <Head>
@@ -66,7 +89,7 @@ export default function Home() {
               layout="horizontal"
               labelCol={{ span: 9 }}
               initialValues={options}
-              onFinish={onFinish}
+              onFieldsChange={onFieldsChange}
             >
               <Form.Item
                 className="form-item"
@@ -125,16 +148,21 @@ export default function Home() {
                   <Radio value={false}>Full Name</Radio>
                 </Radio.Group>
               </Form.Item>
-              <Form.Item className="form-item submit-wrapper">
-                <Button type="primary" htmlType="submit">
-                  Generate
+              <Form.Item className="form-item">
+                <Space className="submit-wrapper">
+                <Button type="primary" onClick={onPreview}>
+                  Preview
                 </Button>
+                <Button type="primary" onClick={onOpenInNewTab} disabled={onOpenInNewTabDisabled}>
+                  Open in new tab
+                </Button>
+                </Space>
               </Form.Item>
             </Form>
               </Col>
               
             <Col className="image-output">
-              <Image src={error?Error:getImgUrl()} alt="Codeforces-Stats" fill="width" onError={onError}/>
+              <Image src={getImgUrl()} alt="Codeforces-Stats" fill="width" onError={onError} onLoad={onLoad}/>
             </Col>
 
             </Row>

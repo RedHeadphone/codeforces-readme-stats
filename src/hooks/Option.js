@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react';
 import qs from 'fast-querystring';
 
+import Error from "../assets/images/error.svg"
+
 const defaultOption = {
     username: "redheadphone",
     theme: "default",
@@ -11,15 +13,24 @@ const defaultOption = {
 
 const useOption = () => {
     const [options, setOptions] = useState(defaultOption);
+    const [querystring, setQuerystring] = useState(qs.stringify(options));
+    const [error, setError] = useState(false);
 
-    const getImgUrl = () => {
-        return `https://codeforces-readme-stats.vercel.app/api/card?${qs.stringify(options)}`;
+    const getImgUrl = (query = querystring) => {
+        return error?Error:`https://codeforces-readme-stats.vercel.app/api/card?${query}`;
     };
+
+    const updateQuerystring = () => {
+        setError(false);
+        setQuerystring(qs.stringify(options));
+    }
     
     return {
         options,
         setOptions,
-        getImgUrl
+        getImgUrl,
+        setError,
+        updateQuerystring
     };
 }
 
