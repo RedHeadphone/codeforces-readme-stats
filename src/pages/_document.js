@@ -22,7 +22,7 @@ export default function Document() {
         <meta property="og:description" content="⚡ Dynamically generated Codeforces stats for your Github profile!"/>
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://codeforces-readme-stats.vercel.app/" />
-        <meta property="og:image" content="/bg.png" />
+        <meta property="og:image" content="https://codeforces-readme-stats.vercel.app/bg.png" />
         <meta property="og:image:alt" content="Codeforces Readme Stats" />
 
         <meta name="twitter:card" content="summary_large_image"/>
@@ -30,7 +30,7 @@ export default function Document() {
         <meta property="twitter:url" content="https://codeforces-readme-stats.vercel.app/"/>
         <meta name="twitter:title" content="Codeforces Readme Stats"/>
         <meta name="twitter:description" content="⚡ Dynamically generated Codeforces stats for your Github profile!"/>
-        <meta name="twitter:image" content="/bg.png"/>
+        <meta name="twitter:image" content="https://codeforces-readme-stats.vercel.app/bg.png"/>
         <meta name="twitter:image:alt" content="Codeforces Readme Stats"/>
         
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
