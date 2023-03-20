@@ -17,7 +17,7 @@ const useOption = () => {
     const [error, setError] = useState(false);
 
     const getImgUrl = (query = querystring) => {
-        return error?Error:`https://codeforces-readme-stats.vercel.app/api/card?${query}`;
+        return error?Error:`/api/card?${query}`;
     };
 
     const updateQuerystring = () => {
