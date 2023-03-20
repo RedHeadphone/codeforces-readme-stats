@@ -16,6 +16,6 @@ Codeforces readme stats comes with several built-in themes (e.g. `dark`, `radica
 <img style="width:350px" src="https://codeforces-readme-stats.vercel.app/api/card?username=redheadphone&theme=radical">
 <img style="width:350px" src="https://codeforces-readme-stats.vercel.app/api/card?username=redheadphone&theme=merko">
 <img style="width:350px" src="https://codeforces-readme-stats.vercel.app/api/card?username=redheadphone&theme=gruvbox">
-<p>
+</p>
 
 You can look at all available themes from the [theme config file](https://github.com/RedHeadphone/Codeforces-readme-stats/blob/master/src/themes.js) & **you can also contribute new themes** if you like :D
