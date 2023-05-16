@@ -92,6 +92,7 @@ export default function Home() {
                 name="theme"
               >
                 <Select
+                  showSearch
                   options={Object.keys(themes).map((theme) => {
                     return { value: theme, label: theme };
                   })}
