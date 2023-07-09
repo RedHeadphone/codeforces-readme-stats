@@ -9,7 +9,7 @@ Check the [docs](https://redheadphone.github.io/Codeforces-readme-stats/) for in
 - 📈 Clean and simple Codeforces stats
 - 🎨 Multiple themes - [Theme](docs/themes.md)
 - ⚙️ Fully customizable - [Customization](docs/customization.md)
-- 🚫 No tracking, controlable cache
+- 🚫 No tracking, controllable cache
 - 🍀 Open source - [MIT License](https://github.com/RedHeadphone/Codeforces-readme-stats/blob/master/LICENSE)
 
 Want to contribute? Feel free to open a pull request!
