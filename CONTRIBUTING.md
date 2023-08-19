@@ -24,6 +24,7 @@ To run & test codeforces-readme-stats, you need to follow a few simple steps:-
 1.  Fork the repository and clone the code to your local machine.
 2.  Run `npm install` in the repository root.
 3.  Run the command `npm run dev` to start the development server at <http://localhost:3000>.
+4.  To run the development server for docs use command `mkdocs serve` (setup it using command `pip install mkdocs mkdocs-material`)
 
 ## Themes Contribution
 
