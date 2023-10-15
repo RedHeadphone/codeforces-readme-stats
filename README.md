@@ -2,7 +2,7 @@
 
 An API that generates beautiful statistics of your Codeforces profile as an SVG image, perfect for showcasing your competitive programming skills and achievements on Github.
 
-Check the [docs](https://redheadphone.github.io/Codeforces-readme-stats/) for information on how to use the API.
+Check the [docs](https://redheadphone.github.io/codeforces-readme-stats/) for information on how to use the API.
 
 ## Features
 
@@ -10,7 +10,7 @@ Check the [docs](https://redheadphone.github.io/Codeforces-readme-stats/) for in
 - 🎨 Multiple themes - [Theme](docs/themes.md)
 - ⚙️ Fully customizable - [Customization](docs/customization.md)
 - 🚫 No tracking, controllable cache
-- 🍀 Open source - [MIT License](https://github.com/RedHeadphone/Codeforces-readme-stats/blob/master/LICENSE)
+- 🍀 Open source - [MIT License](https://github.com/RedHeadphone/codeforces-readme-stats/blob/master/LICENSE)
 
 Want to contribute? Feel free to open a pull request!
 

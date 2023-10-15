@@ -18,4 +18,4 @@ Codeforces readme stats comes with several built-in themes (e.g. `dark`, `radica
 <img style="width:340px" src="../images/static/theme-card-4.svg">
 </p>
 
-You can look at all available themes from the [theme config file](https://github.com/RedHeadphone/Codeforces-readme-stats/blob/master/src/themes.js) & **you can also contribute new themes** if you like :D
+You can look at all available themes from the [theme config file](https://github.com/RedHeadphone/codeforces-readme-stats/blob/master/src/themes.js) & **you can also contribute new themes** if you like :D

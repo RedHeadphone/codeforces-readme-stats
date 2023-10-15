@@ -152,8 +152,8 @@ export default function Home() {
 
             <Divider className="divider"/>
             <Space className="footer">
-              <a href="https://github.com/RedHeadphone/Codeforces-readme-stats"><GithubFilled />Github</a>
-              <a href="https://redheadphone.github.io/Codeforces-readme-stats"><BookFilled />Docs</a>
+              <a href="https://github.com/RedHeadphone/codeforces-readme-stats"><GithubFilled />Github</a>
+              <a href="https://redheadphone.github.io/codeforces-readme-stats"><BookFilled />Docs</a>
             </Space>
           </Col>
         </Card>

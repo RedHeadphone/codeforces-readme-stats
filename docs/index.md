@@ -9,7 +9,7 @@ An API that generates beautiful statistics of your Codeforces profile as an SVG 
 - 🎨 Multiple themes - [Theme](./themes.md)
 - ⚙️ Fully customizable - [Customization](./customization.md)
 - 🚫 No tracking, controllable cache
-- 🍀 Open source - [MIT License](https://github.com/RedHeadphone/Codeforces-readme-stats/blob/master/LICENSE)
+- 🍀 Open source - [MIT License](https://github.com/RedHeadphone/codeforces-readme-stats/blob/master/LICENSE)
 
 Want to contribute? Feel free to open a pull request!
 
