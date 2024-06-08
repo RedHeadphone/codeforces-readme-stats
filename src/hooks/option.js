@@ -17,7 +17,7 @@ const useOption = () => {
     const [error, setError] = useState(false);
 
     const getImgUrl = (query = querystring) => {
-        return error?Error:`/api/card?${query}`;
+        return error?(Error.src):`/api/card?${query}`;
     };
 
     const updateQuerystring = () => {

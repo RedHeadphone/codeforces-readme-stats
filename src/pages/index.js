@@ -145,7 +145,7 @@ export default function Home() {
               </Col>
               
             <Col className="image-output">
-              <Image src={getImgUrl()} alt="Codeforces-Stats" fill="width" onError={onError} onLoad={onLoad}/>
+              <img src={getImgUrl()} alt="Codeforces-Stats" fill="width" onError={onError} onLoad={onLoad}/>
             </Col>
 
             </Row>
