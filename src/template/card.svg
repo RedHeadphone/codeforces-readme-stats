@@ -33,7 +33,7 @@
     padding-left: 0.15em;
     font-size: 18px;
     font-weight: 600;
-    color: #434d58;
+    color: #{{ theme.text_color }};
   }
 
   .header-td {
@@ -41,7 +41,7 @@
     padding-top: 0;
     padding-bottom: 10px;
     padding-left: 4px;
-    color: #2f80ed;
+    color: #{{ theme.title_color }};
     font-size: 24px;
     font-weight: 800;
     margin: 0px;
