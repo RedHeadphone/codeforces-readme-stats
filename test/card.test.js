@@ -1,6 +1,6 @@
 
-import { COLORS } from "../common";
-import { renderCard } from "../pages/api/card";
+import { COLORS } from "../src/common";
+import { renderCard } from "../src/pages/api/card";
 
 describe("renderCard", () => {
     it("should render correct stats", () => {

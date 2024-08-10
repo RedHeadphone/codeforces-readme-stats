@@ -12,8 +12,8 @@
   "dependencies": {
     "@next/font": "13.1.6",
     "antd": "^5.3.1",
-    "axios": "^0.21.4",
-    "axios-cache-adapter": "^2.7.3",
+    "axios": "^1.0.0",
+    "axios-cache-interceptor": "^1.5.3",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
     "fast-querystring": "^1.1.1",

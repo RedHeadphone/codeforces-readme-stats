@@ -5,7 +5,7 @@ import path from "path";
 import { get_color_from_rating, CONSTANTS, clamp_value } from "../../common.js";
 
 export function renderBadge(rating) {
-  nunjucks.configure(path.join(process.cwd(), "src/template"), {
+  nunjucks.configure(path.join(process.cwd(), "src/templates"), {
     autoescape: true,
   });
   return nunjucks.render("badge.svg", {

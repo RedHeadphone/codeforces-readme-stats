@@ -5,7 +5,7 @@ import { GithubFilled, BookFilled, ExportOutlined } from '@ant-design/icons';
 import { Space, Card, Col, Form, Input, Select, Radio, Button, Divider, Row } from "antd";
 
 import themes from "../themes.js";
-import Logo from "../assets/images/logo.png";
+import Logo from "../images/logo.png";
 import useOption from "../hooks/option.js";
 
 

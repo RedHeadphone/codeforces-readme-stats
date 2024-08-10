@@ -1,6 +1,6 @@
 
-import { COLORS } from "../common";
-import { renderBadge } from "../pages/api/badge";
+import { COLORS } from "../src/common";
+import { renderBadge } from "../src/pages/api/badge";
 
 describe("renderBadge", () => {
     it("should render cyan if specialist rating", () => {

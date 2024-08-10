@@ -1,10 +1,9 @@
-import { setup } from 'axios-cache-adapter'
+import Axios from 'axios'
+import { setupCache } from 'axios-cache-interceptor'
 
-const api = setup({
-    baseURL: 'https://codeforces.com/api',
-    cache: {
-      exclude: { query: false }
-    }
-})
+const instance = Axios.create({
+  baseURL: 'https://codeforces.com/api',
+});
+const api = setupCache(instance)
 
 export default api

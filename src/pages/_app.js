@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import '@/styles/globals.css'
+import './styles.css'
 
 function App({ Component, pageProps }) {
   return <>

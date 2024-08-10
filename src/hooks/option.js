@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import qs from 'fast-querystring';
 
-import Error from "../assets/images/error.svg"
+import Error from "../images/error.svg"
 
 const defaultOption = {
     username: "redheadphone",

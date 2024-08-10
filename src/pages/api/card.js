@@ -44,7 +44,7 @@ export function renderCard(
   disable_animations,
   show_icons
 ) {
-  nunjucks.configure(path.join(process.cwd(), "src/template"), {
+  nunjucks.configure(path.join(process.cwd(), "src/templates"), {
     autoescape: true,
   });
   return nunjucks.render("card.svg", {
