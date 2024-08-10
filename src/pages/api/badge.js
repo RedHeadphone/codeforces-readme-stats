@@ -48,6 +48,7 @@ export default async function handler(req, res) {
       .catch((error) => {
         res.setHeader("Cache-Control", `no-cache, no-store, must-revalidate`);
         res.status(404).send("User not found");
+        console.error(error);
         resolve();
       });
   });
