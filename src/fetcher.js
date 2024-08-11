@@ -1,6 +1,30 @@
 import { capitalize } from "@/common.js";
 import { api } from "@/axios.js";
 
+const last_rating_cache = new Map();
+const last_stats_cache = new Map();
+
+function fetch_error_handler(fetch, username, last_cache) {
+  return new Promise((resolve, reject) => {
+    const timeoutID = setTimeout(function () {
+      const res = last_cache.get(username);
+      if (res != null) resolve(res);
+      else reject({ status: 500, error: "Codeforces Server Error" });
+    }, 2000);
+    fetch()
+      .then((result) => {
+        clearTimeout(timeoutID);
+        resolve(result);
+      })
+      .catch((error) => {
+        if (error.status === 400){
+          clearTimeout(timeoutID);
+          reject(error);
+        }
+      });
+  });
+}
+
 function count_submissions(submissions) {
   let alreadySolved = {};
   let problemID;
@@ -16,22 +40,29 @@ function count_submissions(submissions) {
 }
 
 export function get_rating(username, cache_seconds) {
-  return new Promise((resolve, reject) => {
-    api
-      .get(`/user.info?handles=${username}`, {
-        cache: {
-          ttl: cache_seconds * 1000,
-        },
-      })
-      .then((response) => {
-        resolve(response.data.result[0].rating || 0);
-      })
-      .catch((error) => {
-        if (error.response.status === 400)
-          reject({ status: 400, error: "Codeforces Handle Not Found" });
-        else reject({ status: 500, error: "Codeforces Server Error" });
-      });
-  });
+  return fetch_error_handler(
+    () =>
+      new Promise((resolve, reject) => {
+        api
+          .get(`/user.info?handles=${username}`, {
+            cache: {
+              ttl: cache_seconds * 1000,
+            },
+          })
+          .then((response) => {
+            const res = response.data.result[0].rating || 0;
+            last_rating_cache.set(username, res);
+            resolve(res);
+          })
+          .catch((error) => {
+            if (error.response.status === 400)
+              reject({ status: 400, error: "Codeforces Handle Not Found" });
+            else reject({ status: 500, error: "Codeforces Server Error" });
+          });
+      }),
+    username,
+    last_rating_cache
+  );
 }
 
 export function get_stats(username, cache_seconds) {
@@ -40,53 +71,61 @@ export function get_stats(username, cache_seconds) {
       ttl: cache_seconds * 1000,
     },
   };
-  return new Promise((resolve, reject) => {
-    Promise.all([
-      api.get(`/user.info?handles=${username}`, apiConfig),
-      api.get(`/user.rating?handle=${username}`, apiConfig),
-      api.get(`/user.status?handle=${username}`, apiConfig),
-    ])
-      .then((responses) => {
-        let {
-          firstName,
-          lastName,
-          rating,
-          rank,
-          maxRank,
-          maxRating,
-          friendOfCount,
-          contribution,
-        } = responses[0].data.result[0];
+  return fetch_error_handler(
+    () =>
+      new Promise((resolve, reject) => {
+        Promise.all([
+          api.get(`/user.info?handles=${username}`, apiConfig),
+          api.get(`/user.rating?handle=${username}`, apiConfig),
+          api.get(`/user.status?handle=${username}`, apiConfig),
+        ])
+          .then((responses) => {
+            let {
+              firstName,
+              lastName,
+              rating,
+              rank,
+              maxRank,
+              maxRating,
+              friendOfCount,
+              contribution,
+            } = responses[0].data.result[0];
 
-        rating = rating ? rating : 0;
-        maxRating = maxRating ? maxRating : 0;
-        rank = rank ? capitalize(rank) : "Unrated";
-        maxRank = maxRank ? capitalize(maxRank) : "Unrated";
+            rating = rating ? rating : 0;
+            maxRating = maxRating ? maxRating : 0;
+            rank = rank ? capitalize(rank) : "Unrated";
+            maxRank = maxRank ? capitalize(maxRank) : "Unrated";
 
-        const fullName = `${firstName} ${lastName}`
-          .replace("undefined", "")
-          .replace("undefined", "")
-          .trim();
-        const contestsCount = responses[1].data.result.length;
-        const problemsSolved = count_submissions(responses[2].data.result);
+            const fullName = `${firstName} ${lastName}`
+              .replace("undefined", "")
+              .replace("undefined", "")
+              .trim();
+            const contestsCount = responses[1].data.result.length;
+            const problemsSolved = count_submissions(responses[2].data.result);
 
-        resolve({
-          username,
-          fullName,
-          rating,
-          maxRating,
-          rank,
-          maxRank,
-          contestsCount,
-          problemsSolved,
-          friendOfCount,
-          contribution,
-        });
-      })
-      .catch((error) => {
-        if (error.response.status === 400)
-          reject({ status: 400, error: "Codeforces Handle Not Found" });
-        else reject({ status: 500, error: "Codeforces Server Error" });
-      });
-  });
+            const res = {
+              username,
+              fullName,
+              rating,
+              maxRating,
+              rank,
+              maxRank,
+              contestsCount,
+              problemsSolved,
+              friendOfCount,
+              contribution,
+            };
+
+            last_stats_cache.set(username, res);
+            resolve(res);
+          })
+          .catch((error) => {
+            if (error.response.status === 400)
+              reject({ status: 400, error: "Codeforces Handle Not Found" });
+            else reject({ status: 500, error: "Codeforces Server Error" });
+          });
+      }),
+    username,
+    last_stats_cache
+  );
 }
