@@ -2,15 +2,17 @@ import { jest } from "@jest/globals";
 import { CONSTANTS, COLORS, clamp_value } from "@/common.js";
 import {user} from "./test-data.js";
 
-jest.unstable_mockModule("@/axios.js", () => {
+jest.unstable_mockModule("@/fetcher-utils", () => {
   return {
     api: {
-      get: jest.fn(),
+      get: jest.fn()
     },
+    last_rating_cache: {set: jest.fn(), get: jest.fn()},
+    last_stats_cache: {set: jest.fn(), get: jest.fn()},
   };
 });
 
-const { api } = await import("@/axios.js");
+const { api, last_stats_cache } = await import("@/fetcher-utils.js");
 const handler = (await import("@/pages/api/card.js")).default;
 
 describe("card handler", () => {
@@ -111,6 +113,7 @@ describe("card handler", () => {
         status: 400,
       },
     });
+    last_stats_cache.get = () => undefined;
 
     await handler(req, res);
 

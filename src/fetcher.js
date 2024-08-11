@@ -1,8 +1,5 @@
 import { capitalize } from "@/common.js";
-import { api } from "@/axios.js";
-
-const last_rating_cache = new Map();
-const last_stats_cache = new Map();
+import { api, last_rating_cache, last_stats_cache } from "@/fetcher-utils.js";
 
 function fetch_error_handler(fetch, username, last_cache) {
   return new Promise((resolve, reject) => {
