@@ -1,18 +1,10 @@
-import api from "../../cacheAxios.js";
-import nunjucks from "nunjucks";
-import path from "path";
-
-import { get_color_from_rating, CONSTANTS, clamp_value } from "../../common.js";
-
-export function renderBadge(rating) {
-  nunjucks.configure(path.join(process.cwd(), "src/templates"), {
-    autoescape: true,
-  });
-  return nunjucks.render("badge.svg", {
-    rating: rating,
-    color: get_color_from_rating(rating),
-  });
-}
+import { get_rating } from "@/fetcher.js";
+import {
+  renderTemplate,
+  get_color_from_rating,
+  CONSTANTS,
+  clamp_value,
+} from "@/common.js";
 
 export default async function handler(req, res) {
   return new Promise((resolve, reject) => {
@@ -24,13 +16,8 @@ export default async function handler(req, res) {
       CONSTANTS.ONE_DAY
     );
 
-    api
-      .get(`/user.info?handles=${username}`, {
-        cache: {
-          maxAge: cacheSeconds * 1000,
-        },
-      })
-      .then((response) => {
+    get_rating(username, cacheSeconds)
+      .then((rating) => {
         res.setHeader("Content-Type", "image/svg+xml");
         res.setHeader(
           "Cache-Control",
@@ -41,14 +28,18 @@ export default async function handler(req, res) {
           }`
         );
 
-        const { rating } = response.data.result[0];
-        res.send(renderBadge(rating));
+        res.send(
+          renderTemplate("badge.svg", {
+            rating,
+            color: get_color_from_rating(rating),
+          })
+        );
         resolve();
       })
-      .catch((error) => {
+      .catch(({ status, error }) => {
+        res.setHeader("Content-Type", "text/plain");
         res.setHeader("Cache-Control", `no-cache, no-store, must-revalidate`);
-        res.status(404).send("User not found");
-        console.error(error);
+        res.status(status).send(error);
         resolve();
       });
   });

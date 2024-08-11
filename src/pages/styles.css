@@ -15,7 +15,7 @@ a {
   text-decoration: none;
 }
 
-.main-body{
+.main-body {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,96 +24,95 @@ a {
   background-color: #e7e7e7;
 }
 
-.card{
+.card {
   margin: 20px 0px;
 }
 
-.header{
+.header {
   margin-bottom: 40px;
 }
 
-.header-title{
+.header-title {
   margin-left: 10px;
 }
 
-.form{
+.form {
   min-width: 380px;
 }
 
-.form-item{
+.form-item {
   margin-bottom: 10px;
 }
 
-.submit-wrapper{
+.submit-wrapper {
   display: flex;
   justify-content: center;
   margin-top: 10px;
 }
 
-.image-output{
+.image-output {
   display: flex;
   justify-content: center;
   align-items: center;
   min-width: 380px;
 }
 
-.image-output > img{
+.image-output > img {
   position: relative !important;
   width: 100%;
 }
 
-.divider{
+.divider {
   margin: 15px 0;
   margin-top: 25px;
 }
 
-.footer{
+.footer {
   display: flex;
   justify-content: space-around;
   font-size: medium;
 }
 
-.footer a > .anticon{
+.footer a > .anticon {
   margin-right: 5px;
 }
 
-
 @media only screen and (max-width: 500px) {
-  .card{
+  .card {
     margin: 0px;
   }
-  .card > div{
+  .card > div {
     padding: 15px !important;
   }
-  .main-body > div{
+  .main-body > div {
     width: 100%;
   }
-  .header{
+  .header {
     font-size: small;
   }
-  .header-title{
+  .header-title {
     font-size: x-large;
     line-height: 85%;
     margin: 10px 0px;
   }
-  .form{
+  .form {
     min-width: unset !important;
     width: 100%;
   }
-  .image-output{
+  .image-output {
     min-width: unset !important;
     width: 100%;
   }
 }
 
 @media only screen and (max-width: 575px) {
-  .ant-form-item-label{
+  .ant-form-item-label {
     padding: 0px !important;
   }
 }
 
 @media only screen and (max-width: 850px) {
-  .row{
+  .row {
     display: flex;
     flex-direction: column;
     align-items: center;
