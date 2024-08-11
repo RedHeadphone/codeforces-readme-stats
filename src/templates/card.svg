@@ -127,9 +127,9 @@
               </tr>
               <tr style="animation-delay: 300ms">
                 <td style="padding-bottom: 20px; white-space: nowrap; line-height: 1.2em">
-                  <span style="color: {{ rankColor }}; font-weight: bold" id="category">{{ rank }}</span>{%
+                  <span style="color: {{ rankColor }}; font-weight: bold" id="rank">{{ rank }}</span>{%
                   if breakBetweenRank %}<br></br>{% endif %} (max: <span
-                    style="color: {{ maxRankColor }}; font-weight: bold" id="max-category">{{
+                    style="color: {{ maxRankColor }}; font-weight: bold" id="max-rank">{{
                   maxRank }}</span>) </td>
               </tr>
             </thead>

@@ -1,77 +1,151 @@
 import { jest } from "@jest/globals";
-import * as fetcher from "@/fetcher.js";
-// import handler from "@/pages/api/badge.js";
-// import { CONSTANTS, COLORS } from "@/common.js";
+import { CONSTANTS, COLORS, clamp_value } from "@/common.js";
 
-jest.mock("@/fetcher.js");
+jest.unstable_mockModule("@/axios.js", () => {
+  return {
+    api: {
+      get: jest.fn(),
+    },
+  };
+});
 
+const { api } = await import("@/axios.js");
+const handler = (await import("@/pages/api/badge.js")).default;
 
 describe("badge handler", () => {
-  // let req, res;
+  let req, res;
 
-  // beforeEach(() => {
-  //   req = {
-  //     query: {
-  //       username: "testuser",
-  //       cache_seconds: "18000",
-  //     },
-  //   };
+  beforeEach(() => {
+    req = {
+      query: {
+        username: "testuser",
+        cache_seconds: "18000",
+      },
+    };
 
-  //   res = {
-  //     setHeader: jest.fn(),
-  //     send: jest.fn(),
-  //     status: jest.fn(),
-  //   };
-  // });
+    res = {
+      setHeader: jest.fn(),
+      send: jest.fn(),
+      status: jest.fn().mockReturnThis(),
+    };
+  });
 
-  // afterEach(() => {
-  //   jest.clearAllMocks();
-  // });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-  it("mock test", async () => {
-    await fetcher.get_rating("testuser", 18000);
+  it("should return a valid SVG response with proper headers", async () => {
+    const rating = 1700;
+    let cacheSeconds = parseInt(
+      req.query.cache_seconds || CONSTANTS.FOUR_HOURS,
+      10
+    );
+    cacheSeconds = clamp_value(
+      cacheSeconds,
+      CONSTANTS.FOUR_HOURS,
+      CONSTANTS.ONE_DAY
+    );
 
-    expect(fetcher.get_rating).toHaveBeenCalledWith("testuser", 18000);
-  })
+    api.get.mockResolvedValue({
+      data: {
+        result: [
+          {
+            rating,
+          },
+        ],
+      },
+    });
 
-  // it("should return a valid SVG response with proper headers", async () => {
-  //   const rating = 1700;
-  //   fetcher.get_rating.mockResolvedValue(rating);
+    await handler(req, res);
 
-  //   await handler(req, res);
+    document.body.innerHTML = res.send.mock.calls[0][0];
+    const badge_color = document
+      .querySelector("#background-color")
+      .getAttribute("fill");
+    const badge_rating = document.querySelector("#rating").innerHTML;
 
-  //   expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "image/svg+xml");
-  //   expect(res.setHeader).toHaveBeenCalledWith(
-  //     "Cache-Control",
-  //     `max-age=${
-  //       cacheSeconds / 2
-  //     }, s-maxage=${cacheSeconds}, stale-while-revalidate=${CONSTANTS.ONE_DAY}`
-  //   );
-  //   document.body.innerHTML = res.send.mock.calls[0][0];
-  //   const badge_color = document
-  //     .querySelector("#background-color")
-  //     .getAttribute("fill");
-  //   expect(badge_color).toBe(COLORS.EXPERT);
-  //   const badge_rating = document.querySelector("#rating").innerHTML;
-  //   expect(badge_rating).toBe(rating.toString());
-  // });
+    expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "image/svg+xml");
+    expect(res.setHeader).toHaveBeenCalledWith(
+      "Cache-Control",
+      `max-age=${
+        cacheSeconds / 2
+      }, s-maxage=${cacheSeconds}, stale-while-revalidate=${CONSTANTS.ONE_DAY}`
+    );
+    expect(badge_color).toBe(COLORS.EXPERT);
+    expect(badge_rating).toBe(rating.toString());
+  });
 
-  // it("should handle errors and send a text response with error message", async () => {
-  //   const error = {
-  //     status: 500,
-  //     error: "Internal Server Error",
-  //   };
+  it("should return a valid SVG response with proper headers for Unrated", async () => {
+    let cacheSeconds = parseInt(
+      req.query.cache_seconds || CONSTANTS.FOUR_HOURS,
+      10
+    );
+    cacheSeconds = clamp_value(
+      cacheSeconds,
+      CONSTANTS.FOUR_HOURS,
+      CONSTANTS.ONE_DAY
+    );
 
-  //   fetcher.get_rating.mockRejectedValue(error);
+    api.get.mockResolvedValue({
+      data: {
+        result: [
+          {},
+        ],
+      },
+    });
 
-  //   await handler(req, res);
+    await handler(req, res);
 
-  //   expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "text/plain");
-  //   expect(res.setHeader).toHaveBeenCalledWith(
-  //     "Cache-Control",
-  //     "no-cache, no-store, must-revalidate"
-  //   );
-  //   expect(res.status).toHaveBeenCalledWith(500);
-  //   expect(res.send).toHaveBeenCalledWith("Internal Server Error");
-  // });
+    document.body.innerHTML = res.send.mock.calls[0][0];
+    const badge_color = document
+      .querySelector("#background-color")
+      .getAttribute("fill");
+    const badge_rating = document.querySelector("#rating").innerHTML;
+
+    expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "image/svg+xml");
+    expect(res.setHeader).toHaveBeenCalledWith(
+      "Cache-Control",
+      `max-age=${
+        cacheSeconds / 2
+      }, s-maxage=${cacheSeconds}, stale-while-revalidate=${CONSTANTS.ONE_DAY}`
+    );
+    expect(badge_color).toBe(COLORS.NEWBIE);
+    expect(badge_rating).toBe("0");
+  });
+
+  it("should handle Codeforces server error and send a text response with error message", async () => {
+    api.get.mockRejectedValue({
+      response: {
+        status: 403,
+      },
+    });
+
+    await handler(req, res);
+
+    expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "text/plain");
+    expect(res.setHeader).toHaveBeenCalledWith(
+      "Cache-Control",
+      "no-cache, no-store, must-revalidate"
+    );
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.send).toHaveBeenCalledWith("Codeforces Server Error");
+  });
+
+  it("should handle Codeforces handle not found error and send a text response with error message", async () => {
+    api.get.mockRejectedValue({
+      response: {
+        status: 400,
+      },
+    });
+
+    await handler(req, res);
+
+    expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "text/plain");
+    expect(res.setHeader).toHaveBeenCalledWith(
+      "Cache-Control",
+      "no-cache, no-store, must-revalidate"
+    );
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledWith("Codeforces Handle Not Found");
+  });
 });

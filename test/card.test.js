@@ -1,46 +1,126 @@
-// import { COLORS } from "@/common";
-// import { renderCard } from "@/pages/api/card";
+import { jest } from "@jest/globals";
+import { CONSTANTS, COLORS, clamp_value } from "@/common.js";
+import {user} from "./test-data.js";
 
-describe("renderCard", () => {
-  it("should render correct stats", () => {
-    //         const data = {
-    //             name: "RedHeadphone",
-    //             rating: 1616,
-    //             category: "Expert",
-    //             maxCategory: "Candidate Master",
-    //             maxRating: 1933,
-    //             contests: 28,
-    //             problemsSolved: 99,
-    //             friendOfCount: 69,
-    //             contribution: 140,
-    //             themeConfig: {
-    //                 title_color: "2f80ed",
-    //                 icon_color: "4c71f2",
-    //                 text_color: "434d58",
-    //                 bg_color: "fffefe",
-    //                 border_color: "e4e2e2",
-    //             },
-    //             disable_animations: true,
-    //             show_icons: true,
-    //         }
-    //         document.body.innerHTML = renderCard(data.name, data.rating, data.category, data.maxCategory, data.maxRating, data.contests, data.problemsSolved, data.friendOfCount, data.contribution, data.themeConfig, data.disable_animations, data.show_icons);
-    //         const name = document.querySelector("#name").innerHTML;
-    //         expect(name).toBe(data.name);
-    //         const rating = document.querySelector("#rating").innerHTML;
-    //         expect(rating).toBe(data.rating.toString());
-    //         const category = document.querySelector("#category").innerHTML;
-    //         expect(category).toBe(data.category);
-    //         const maxCategory = document.querySelector("#max-category").innerHTML;
-    //         expect(maxCategory).toBe(data.maxCategory);
-    //         const maxRating = document.querySelector("#max-rating").innerHTML;
-    //         expect(maxRating).toBe(data.maxRating.toString());
-    //         const contests = document.querySelector("#contests").innerHTML;
-    //         expect(contests).toBe(data.contests.toString());
-    //         const problemsSolved = document.querySelector("#problems-solved").innerHTML;
-    //         expect(problemsSolved).toBe(data.problemsSolved.toString());
-    //         const friendOfCount = document.querySelector("#friend-of-count").innerHTML;
-    //         expect(friendOfCount).toBe(data.friendOfCount.toString());
-    //         const contribution = document.querySelector("#contribution").innerHTML;
-    //         expect(contribution).toBe(data.contribution.toString());
+jest.unstable_mockModule("@/axios.js", () => {
+  return {
+    api: {
+      get: jest.fn(),
+    },
+  };
+});
+
+const { api } = await import("@/axios.js");
+const handler = (await import("@/pages/api/card.js")).default;
+
+describe("card handler", () => {
+  let req, res;
+
+  beforeEach(() => {
+    req = {
+      query: {
+        username: "redheadphone3",
+        cache_seconds: "18000",
+        force_username: true,
+      },
+    };
+
+    res = {
+      setHeader: jest.fn(),
+      send: jest.fn(),
+      status: jest.fn().mockReturnThis(),
+    };
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should return a valid SVG response with proper headers", async () => {
+    let cacheSeconds = parseInt(
+      req.query.cache_seconds || CONSTANTS.FOUR_HOURS,
+      10
+    );
+    cacheSeconds = clamp_value(
+      cacheSeconds,
+      CONSTANTS.FOUR_HOURS,
+      CONSTANTS.ONE_DAY
+    );
+
+    api.get.mockImplementation((url,params) => {
+      if (url.includes("user.info")) 
+        return Promise.resolve({data:user.info});
+      if (url.includes("user.rating")) 
+        return Promise.resolve({data:user.rating});
+      if (url.includes("user.status"))
+        return Promise.resolve({data:user.status});
+    });
+
+    await handler(req, res);
+
+    document.body.innerHTML = res.send.mock.calls[0][0];
+    const name = document.querySelector("#name").innerHTML;
+    const rating = document.querySelector("#rating").innerHTML;
+    const maxRating = document.querySelector("#max-rating").innerHTML;
+    const rank = document.querySelector("#rank").innerHTML;
+    const maxRank = document.querySelector("#max-rank").innerHTML;
+    const contests = document.querySelector("#contests").innerHTML;
+    const problemsSolved = document.querySelector("#problems-solved").innerHTML;
+    const friendOfCount = document.querySelector("#friend-of-count").innerHTML;
+    const contribution = document.querySelector("#contribution").innerHTML;
+
+    expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "image/svg+xml");
+    expect(res.setHeader).toHaveBeenCalledWith(
+      "Cache-Control",
+      `max-age=${
+        cacheSeconds / 2
+      }, s-maxage=${cacheSeconds}, stale-while-revalidate=${CONSTANTS.ONE_DAY}`
+    );
+    expect(name).toBe("redheadphone3");
+    expect(rating).toBe("1386");
+    expect(maxRating).toBe("1386");
+    expect(rank).toBe("Pupil");
+    expect(maxRank).toBe("Pupil");
+    expect(contests).toBe("5");
+    expect(problemsSolved).toBe("26");
+    expect(friendOfCount).toBe("1");
+    expect(contribution).toBe("0");
+  });
+
+  it("should handle Codeforces server error and send a text response with error message", async () => {
+    api.get.mockRejectedValue({
+      response: {
+        status: 403,
+      },
+    });
+
+    await handler(req, res);
+
+    expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "text/plain");
+    expect(res.setHeader).toHaveBeenCalledWith(
+      "Cache-Control",
+      "no-cache, no-store, must-revalidate"
+    );
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.send).toHaveBeenCalledWith("Codeforces Server Error");
+  });
+
+  it("should handle Codeforces handle not found error and send a text response with error message", async () => {
+    api.get.mockRejectedValue({
+      response: {
+        status: 400,
+      },
+    });
+
+    await handler(req, res);
+
+    expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "text/plain");
+    expect(res.setHeader).toHaveBeenCalledWith(
+      "Cache-Control",
+      "no-cache, no-store, must-revalidate"
+    );
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.send).toHaveBeenCalledWith("Codeforces Handle Not Found");
   });
 });
+

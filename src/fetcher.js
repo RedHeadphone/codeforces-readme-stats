@@ -1,14 +1,5 @@
-import Axios from "axios";
-import { setupCache } from "axios-cache-interceptor";
 import { capitalize } from "@/common.js";
-
-const instance = Axios.create({
-  baseURL: "https://codeforces.com/api",
-  headers: {
-    "User-Agent": "Codeforces Readme Stats",
-  },
-});
-const api = setupCache(instance);
+import { api } from "@/axios.js";
 
 function count_submissions(submissions) {
   let alreadySolved = {};
@@ -25,7 +16,6 @@ function count_submissions(submissions) {
 }
 
 export function get_rating(username, cache_seconds) {
-  console.log("get_rating", username, cache_seconds); // to remove
   return new Promise((resolve, reject) => {
     api
       .get(`/user.info?handles=${username}`, {
@@ -34,11 +24,12 @@ export function get_rating(username, cache_seconds) {
         },
       })
       .then((response) => {
-        resolve(response.data.result[0].rating);
+        resolve(response.data.result[0].rating || 0);
       })
       .catch((error) => {
-        reject({ status: 404, error: "Codeforces Handle Not Found" });
-        reject({ status: 500, error: "Codeforces Server Error" });
+        if (error.response.status === 400)
+          reject({ status: 400, error: "Codeforces Handle Not Found" });
+        else reject({ status: 500, error: "Codeforces Server Error" });
       });
   });
 }
@@ -73,7 +64,8 @@ export function get_stats(username, cache_seconds) {
         maxRank = maxRank ? capitalize(maxRank) : "Unrated";
 
         const fullName = `${firstName} ${lastName}`
-          .replace("undefined", "").replace("undefined", "")
+          .replace("undefined", "")
+          .replace("undefined", "")
           .trim();
         const contestsCount = responses[1].data.result.length;
         const problemsSolved = count_submissions(responses[2].data.result);
