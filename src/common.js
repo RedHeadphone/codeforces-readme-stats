@@ -62,7 +62,3 @@ export const capitalize = (str) => {
   );
   return capitalized_words.join(" ");
 };
-
-export const word_count = (str) => {
-  return str.split(" ").length;
-};

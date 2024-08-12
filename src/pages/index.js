@@ -105,7 +105,7 @@ export default function Home() {
                       },
                     ]}
                   >
-                    <Input autoComplete="off" onPressEnter={onUsernameEnter} />
+                    <Input autoComplete="off" spellCheck={false} onPressEnter={onUsernameEnter} />
                   </Form.Item>
                   <Form.Item className="form-item" label="Theme" name="theme">
                     <Select

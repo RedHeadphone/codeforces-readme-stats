@@ -5,11 +5,10 @@ import {
   get_color_from_rating,
   CONSTANTS,
   clamp_value,
-  word_count,
 } from "@/common.js";
 
-function check_overflow(category, maxCategory) {
-  return word_count(category) + word_count(maxCategory) > 2;
+function check_overflow(rank, maxRank, width) {
+  return (rank.length + maxRank.length + 8)*10 + 34 > width;
 }
 
 export default async function handler(req, res) {
@@ -88,6 +87,9 @@ export default async function handler(req, res) {
             ...themes[theme],
             ...customColorScheme,
           };
+          const width = Math.max(380, 100 + name.length * 14);
+          const breakBetweenRank = check_overflow(rank, maxRank, width);
+          const height = 290 + (breakBetweenRank ? 25 : 0);
 
           res.send(
             renderTemplate("card.svg", {
@@ -96,9 +98,9 @@ export default async function handler(req, res) {
               maxRating,
               rank,
               maxRank,
-              breakBetweenRank: check_overflow(rank, maxRank),
-              height: 290 + (check_overflow(rank, maxRank) ? 25 : 0),
-              width: Math.max(380, 100 + name.length * 14),
+              breakBetweenRank,
+              height,
+              width,
               contestsCount,
               problemsSolved,
               friendOfCount,

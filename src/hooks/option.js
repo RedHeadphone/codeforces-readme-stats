@@ -1,19 +1,25 @@
-import { useState } from "react";
+import useLocalStorageState from "use-local-storage-state";
 import qs from "fast-querystring";
 import Error from "@/images/error.svg";
 
 const defaultOption = {
   username: "redheadphone",
-  theme: "default",
+  theme: "github_dark",
   disable_animations: false,
   show_icons: true,
   force_username: true,
 };
 
 const useOption = () => {
-  const [options, setOptions] = useState(defaultOption);
-  const [querystring, setQuerystring] = useState(qs.stringify(options));
-  const [error, setError] = useState(false);
+  const [options, setOptions] = useLocalStorageState("options", {
+    defaultValue: defaultOption,
+  });
+  const [querystring, setQuerystring] = useLocalStorageState("querystring", {
+    defaultValue: qs.stringify(options),
+  });
+  const [error, setError] = useLocalStorageState("error", {
+    defaultValue: false,
+  });
 
   const getImgUrl = (query = querystring) => {
     return error ? Error.src : `/api/card?${query}`;

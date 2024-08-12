@@ -20,7 +20,8 @@
     "next": "13.1.6",
     "nunjucks": "^3.2.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "use-local-storage-state": "^19.4.0"
   },
   "devDependencies": {
     "@types/node": "18.11.18",
