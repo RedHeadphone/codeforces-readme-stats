@@ -1,5 +1,5 @@
 
-import { clamp_value } from "../common";
+import { clamp_value } from "@/common";
 
 describe("clamp_value", () => {
     it("should return the minimum value if the number is less than the minimum", () => {
