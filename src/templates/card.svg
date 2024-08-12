@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="380" height="{{ height }}"
-  viewBox="0 0 380 {{ height }}" preserveAspectRatio="xMidYMid meet">
+  width="{{ width }}" height="{{ height }}"
+  viewBox="0 0 {{ width }} {{ height }}" preserveAspectRatio="xMidYMid meet">
   <title>{{ name }} | Codeforces Stats</title>
   <style>
     svg {
@@ -110,7 +110,7 @@
   <g>
     <rect x="0.5" y="0.5" id="background" />
     <g>
-      <foreignObject x="17" y="17" width="347" height="{{ height - 33 }}">
+      <foreignObject x="17" y="17" width="{{ width - 34 }}" height="{{ height - 34 }}">
         <div xmlns="http://www.w3.org/1999/xhtml">
           <table>
             <thead>

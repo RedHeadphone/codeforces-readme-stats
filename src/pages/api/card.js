@@ -98,6 +98,7 @@ export default async function handler(req, res) {
               maxRank,
               breakBetweenRank: check_overflow(rank, maxRank),
               height: 290 + (check_overflow(rank, maxRank) ? 25 : 0),
+              width: Math.max(380, 100 + name.length * 14),
               contestsCount,
               problemsSolved,
               friendOfCount,
