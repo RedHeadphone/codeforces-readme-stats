@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import qs from "fast-querystring";
 import Error from "@/images/error.svg";
 
@@ -7,7 +7,7 @@ const defaultOption = {
   theme: "default",
   disable_animations: false,
   show_icons: true,
-  force_username: false,
+  force_username: true,
 };
 
 const useOption = () => {
@@ -19,22 +19,18 @@ const useOption = () => {
     return error ? Error.src : `/api/card?${query}`;
   };
 
-  const updateQuerystring = () => {
+  const updateQuerystring = (newOptions) => {
     setError(false);
-    setQuerystring(qs.stringify(options));
-  };
-
-  const checkSame = (values) => {
-    return qs.stringify(values) === querystring;
+    setQuerystring(qs.stringify(newOptions));
   };
 
   return {
     options,
     setOptions,
     getImgUrl,
+    error,
     setError,
     updateQuerystring,
-    checkSame,
   };
 };
 

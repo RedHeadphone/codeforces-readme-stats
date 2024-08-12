@@ -1,6 +1,4 @@
-import { useState } from "react";
 import Image from "next/image";
-
 import { GithubFilled, BookFilled, ExportOutlined } from "@ant-design/icons";
 import {
   Space,
@@ -13,6 +11,7 @@ import {
   Button,
   Divider,
   Row,
+  notification,
 } from "antd";
 
 import themes from "@/themes.js";
@@ -20,48 +19,58 @@ import Logo from "@/images/logo.png";
 import useOption from "@/hooks/option.js";
 
 export default function Home() {
-  const {
-    options,
-    setOptions,
-    getImgUrl,
-    setError,
-    updateQuerystring,
-    checkSame,
-  } = useOption();
-  const [openInNewTabDisabled, setOpenInNewTabDisabled] = useState(true);
+  const { options, setOptions, getImgUrl, error, setError, updateQuerystring } =
+    useOption();
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotification = (placement) => {
+    api.info({
+      message: "Success",
+      description: `Copied to clipboard!`,
+      placement,
+    });
+  };
 
   const onOpenInNewTab = () => {
     window.open(getImgUrl(), "_blank");
   };
 
-  const onPreview = () => {
-    updateQuerystring();
-  };
-
   const onError = () => {
     setError(true);
-    setOpenInNewTabDisabled(true);
   };
 
-  const onLoad = (src) => {
-    if (!src.currentTarget.src.includes("error")) {
-      setOpenInNewTabDisabled(false);
-    }
-  };
-
-  const onFieldsChange = (changed_value, values) => {
+  const onFieldsChange = async (changed_value, values) => {
     setOptions((prev) => {
-      const newValues = {
+      const newOptions = {
         ...prev,
         [changed_value[0].name]: changed_value[0].value,
       };
-      setOpenInNewTabDisabled(!checkSame(newValues));
-      return newValues;
+      if (changed_value[0].name[0] !== "username") {
+        updateQuerystring(newOptions);
+      }
+      return newOptions;
     });
+  };
+
+  const onCopyMarkdown = () => {
+    navigator.clipboard.writeText(
+      `[![Codeforces Stats](${
+        window.location.href.substring(
+          0,
+          window.location.href.lastIndexOf("/")
+        ) + getImgUrl()
+      })](https://codeforces.com/profile/${options.username})`
+    );
+    openNotification("topRight");
+  };
+
+  const onUsernameEnter = () => {
+    updateQuerystring(options);
   };
 
   return (
     <>
+      {contextHolder}
       <Space className="main-body">
         <Card className="card">
           <Col className="card-col">
@@ -82,7 +91,6 @@ export default function Home() {
                   name="Card Input"
                   layout="horizontal"
                   labelCol={{ span: 9 }}
-                  colon={false}
                   initialValues={options}
                   onFieldsChange={onFieldsChange}
                 >
@@ -97,7 +105,7 @@ export default function Home() {
                       },
                     ]}
                   >
-                    <Input autoComplete="off" />
+                    <Input autoComplete="off" onPressEnter={onUsernameEnter} />
                   </Form.Item>
                   <Form.Item className="form-item" label="Theme" name="theme">
                     <Select
@@ -142,15 +150,19 @@ export default function Home() {
                   </Form.Item>
                   <Form.Item className="form-item">
                     <Space className="submit-wrapper">
-                      <Button type="primary" onClick={onPreview}>
-                        Preview
+                      <Button
+                        type="primary"
+                        onClick={onCopyMarkdown}
+                        disabled={error}
+                      >
+                        Copy Markdown
                       </Button>
                       <Button
                         type="default"
                         onClick={onOpenInNewTab}
-                        disabled={openInNewTabDisabled}
+                        disabled={error}
                       >
-                        Open in new tab
+                        Open Image in new tab
                         <ExportOutlined />
                       </Button>
                     </Space>
@@ -164,7 +176,6 @@ export default function Home() {
                   alt="Codeforces-Stats"
                   fill="width"
                   onError={onError}
-                  onLoad={onLoad}
                 />
               </Col>
             </Row>
