@@ -7,10 +7,6 @@ import {
   clamp_value,
 } from "@/common.js";
 
-function check_overflow(rank, maxRank, width) {
-  return (rank.length + maxRank.length + 8)*10 + 34 > width;
-}
-
 export default async function handler(req, res) {
   return new Promise((resolve, reject) => {
     let {
@@ -51,6 +47,7 @@ export default async function handler(req, res) {
           maxRank,
           contestsCount,
           problemsSolved,
+          submissions,
           friendOfCount,
           contribution,
         }) => {
@@ -87,9 +84,9 @@ export default async function handler(req, res) {
             ...themes[theme],
             ...customColorScheme,
           };
-          const width = Math.max(380, 100 + name.length * 14);
-          const breakBetweenRank = check_overflow(rank, maxRank, width);
-          const height = 290 + (breakBetweenRank ? 25 : 0);
+          const width = Math.max(380, 70 + name.length * 13);
+          const breakBetweenRank = (rank.length + maxRank.length + 8)*10 + 34 > width;
+          const height = 290 + (breakBetweenRank ? 22 : 0);
 
           res.send(
             renderTemplate("card.svg", {
@@ -103,6 +100,7 @@ export default async function handler(req, res) {
               width,
               contestsCount,
               problemsSolved,
+              submissions,
               friendOfCount,
               contribution,
               rankColor: get_color_from_rating(rating),

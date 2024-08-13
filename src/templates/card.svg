@@ -3,105 +3,108 @@
   viewBox="0 0 {{ width }} {{ height }}" preserveAspectRatio="xMidYMid meet">
   <title>{{ name }} | Codeforces Stats</title>
   <style>
+
     svg {
-    font-size: 14px;
-    line-height: 18px;
-    font-family: 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif;
-    image-rendering: auto;
+      font-weight: 600;
+      font-size: 18px;
+      font-family: 'Segoe UI', Ubuntu, Sans-Serif;
+      line-height: 20px;
+      white-space: nowrap;
+      image-rendering: auto;
+      color: #{{ theme.text_color }};
     }
 
     #background {
-    width: calc(100% - 1px);
-    height: calc(100% - 1px);
-    fill: #{{ theme.bg_color }};
-    stroke: #{{ theme.border_color }};
-    stroke-width: 1;
-    rx: 4px;
-    ry: 4px;
+      width: calc(100% - 1px);
+      height: calc(100% - 1px);
+      fill: #{{ theme.bg_color }};
+      stroke: #{{ theme.border_color }};
+      stroke-width: 1;
+      rx: 4px;
+      ry: 4px;
+    }
+
+    #name {
+      line-height: 26px;
     }
 
     table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: auto;
-    }
-
-    td {
-    margin-bottom: 16px;
-    margin-top: 8px;
-    padding: 0.3em;
-    padding-left: 0.15em;
-    font-size: 18px;
-    font-weight: 600;
-    color: #{{ theme.text_color }};
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: auto;
     }
 
     .header-td {
-    padding: 0.5em;
-    padding-top: 0;
-    padding-bottom: 10px;
-    padding-left: 4px;
-    color: #{{ theme.title_color }};
-    font-size: 24px;
-    font-weight: 800;
-    margin: 0px;
-    display: flex;
-    align-items: center;
+      padding: 0 0 8px 4px;
+      color: #{{ theme.title_color }};
+      font-size: 22px;
+      font-weight: 800;
+      margin: 0px;
+      display: flex;
+      align-items: center;
     }
 
     .stats-label{
-    display: flex;
-    align-items: center;
-    margin: 0px;
-    padding: 0px;
+      width: 20px;
     }
 
-    .stats-num{
-    text-align: right;
+    .main-stats {
+      width: 100%;
+    }
+
+    .main-stats tbody tr {
+      margin-bottom: 6px;
+      height: 28px;
+    }
+
+    .stats-num {
+      text-align: right;
+      padding-right: 3px;
+    }
+
+    .logo {
+      margin-right: 14px;
+    }
+
+    .ranks{
+      padding-bottom: 12px;
     }
 
     {% if show_icons %}
 
     .octicon {
-    fill: #{{ theme.icon_color }};
-    margin-right: 1ch;
-    vertical-align: top;
-    margin-right: 10px;
+      stroke: #{{ theme.icon_color }};
+      vertical-align: middle;
+      display: inline-block;
+      line-height: 28px;
+      margin-right: 8px;
     }
 
     {% else %}
 
     .octicon {
-    display: none;
+      display: none;
     }
 
     {% endif %}
 
-    .logo {
-    margin-right: 1ch;
-    }
-
     {% if animation %}
 
-    th, tr {
-    opacity: 0;
+    tr {
+      opacity: 0;
     }
 
     @keyframes fadeIn {
-    from {
-    opacity: 0;
-    }
-    to {
-    opacity: 1;
-    }
-    }
-
-    th{
-    animation: fadeIn 0.5s ease-in-out forwards;
+      from {
+       opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
     tr{
-    animation: fadeIn 0.3s ease-in-out forwards;
+      animation: fadeIn 0.3s ease-in-out forwards;
     }
 
     {% endif %}
@@ -110,14 +113,14 @@
   <g>
     <rect x="0.5" y="0.5" id="background" />
     <g>
-      <foreignObject x="17" y="17" width="{{ width - 34 }}" height="{{ height - 34 }}">
+      <foreignObject x="15" y="15" width="{{ width - 30 }}" height="{{ height - 30 }}">
         <div xmlns="http://www.w3.org/1999/xhtml">
           <table>
             <thead>
               <tr>
-                <td class="header-td" style="white-space: nowrap; line-height: 1.2em">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="logo" width="29" height="25"
-                    viewBox="0 0 29 25" fill="none" style="padding-right: 8px;">
+                <td class="header-td">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="logo" width="22" height="20"
+                    viewBox="0 0 29 25" fill="none">
                     <rect y="6" width="7" height="18.125" rx="2" fill="#FFC107" />
                     <rect x="22" y="10.125" width="7" height="14" rx="2" fill="#F44336" />
                     <rect x="11" width="7" height="24.125" rx="2" fill="#2196F3" />
@@ -125,81 +128,133 @@
                   <span id="name">{{ name }}</span>
                 </td>
               </tr>
-              <tr style="animation-delay: 300ms">
-                <td style="padding-bottom: 20px; white-space: nowrap; line-height: 1.2em">
-                  <span style="color: {{ rankColor }}; font-weight: bold" id="rank">{{ rank }}</span>{%
-                  if breakBetweenRank %}<br></br>{% endif %} (max: <span
-                    style="color: {{ maxRankColor }}; font-weight: bold" id="max-rank">{{
-                  maxRank }}</span>) </td>
+              <tr style="animation-delay: 300ms;">
+                <td class="ranks">
+                  <span style="color: {{ rankColor }};" id="rank">{{ rank }}</span>
+                  {% if breakBetweenRank %}<br/>{% endif %} (max: <span
+                    style="color: {{ maxRankColor }};" id="max-rank">{{
+                    maxRank }}</span>) </td>
               </tr>
             </thead>
           </table>
-          <table>
+          <table class="main-stats">
             <tbody>
-              <tr style="animation-delay: 600ms">
+              <tr style="animation-delay: 600ms;">
                 <td class="stats-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
-                    class="octicon bi bi-star" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                      d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                  </svg>Contest
+                  <svg class="octicon" width="20" height="20" fill="none"
+                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="9" r="7" stroke-width="1.5" />
+                    <path
+                      d="M7.35111 15L6.71424 17.323C6.0859 19.6148 5.77173 20.7607 6.19097 21.3881C6.3379 21.6079 6.535 21.7844 6.76372 21.9008C7.41635 22.2331 8.42401 21.7081 10.4393 20.658C11.1099 20.3086 11.4452 20.1339 11.8014 20.0959C11.9335 20.0818 12.0665 20.0818 12.1986 20.0959C12.5548 20.1339 12.8901 20.3086 13.5607 20.658C15.576 21.7081 16.5837 22.2331 17.2363 21.9008C17.465 21.7844 17.6621 21.6079 17.809 21.3881C18.2283 20.7607 17.9141 19.6148 17.2858 17.323L16.6489 15"
+                      stroke-width="1.5" stroke-linecap="round" />
+                  </svg></td>
+                <td> Contest
                   Rating: </td>
                 <td class="stats-num" id="rating">{{ rating }}</td>
               </tr>
-              <tr style="animation-delay: 800ms">
+              <tr style="animation-delay: 800ms;">
                 <td class="stats-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="octicon bi bi-award" width="21"
-                    height="21" fill="currentColor" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                      d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z" />
-                    <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z" />
-                  </svg>Max
+                  <svg class="octicon" width="20" height="20"
+                    viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M11.1459 7.02251C11.5259 6.34084 11.7159 6 12 6C12.2841 6 12.4741 6.34084 12.8541 7.02251L12.9524 7.19887C13.0603 7.39258 13.1143 7.48944 13.1985 7.55334C13.2827 7.61725 13.3875 7.64097 13.5972 7.68841L13.7881 7.73161C14.526 7.89857 14.895 7.98205 14.9828 8.26432C15.0706 8.54659 14.819 8.84072 14.316 9.42898L14.1858 9.58117C14.0429 9.74833 13.9714 9.83191 13.9392 9.93531C13.9071 10.0387 13.9179 10.1502 13.9395 10.3733L13.9592 10.5763C14.0352 11.3612 14.0733 11.7536 13.8435 11.9281C13.6136 12.1025 13.2682 11.9435 12.5773 11.6254L12.3986 11.5431C12.2022 11.4527 12.1041 11.4075 12 11.4075C11.8959 11.4075 11.7978 11.4527 11.6014 11.5431L11.4227 11.6254C10.7318 11.9435 10.3864 12.1025 10.1565 11.9281C9.92674 11.7536 9.96476 11.3612 10.0408 10.5763L10.0605 10.3733C10.0821 10.1502 10.0929 10.0387 10.0608 9.93531C10.0286 9.83191 9.95713 9.74833 9.81418 9.58117L9.68403 9.42898C9.18097 8.84072 8.92945 8.54659 9.01723 8.26432C9.10501 7.98205 9.47396 7.89857 10.2119 7.73161L10.4028 7.68841C10.6125 7.64097 10.7173 7.61725 10.8015 7.55334C10.8857 7.48944 10.9397 7.39258 11.0476 7.19887L11.1459 7.02251Z"
+                      stroke-width="1.5" />
+                    <path
+                      d="M19 9C19 12.866 15.866 16 12 16C8.13401 16 5 12.866 5 9C5 5.13401 8.13401 2 12 2C15.866 2 19 5.13401 19 9Z"
+                      stroke-width="1.5" />
+                    <path
+                      d="M7.35111 15L6.71424 17.323C6.0859 19.6148 5.77173 20.7607 6.19097 21.3881C6.3379 21.6079 6.535 21.7844 6.76372 21.9008C7.41635 22.2331 8.42401 21.7081 10.4393 20.658C11.1099 20.3086 11.4452 20.1339 11.8014 20.0959C11.9335 20.0818 12.0665 20.0818 12.1986 20.0959C12.5548 20.1339 12.8901 20.3086 13.5607 20.658C15.576 21.7081 16.5837 22.2331 17.2363 21.9008C17.465 21.7844 17.6621 21.6079 17.809 21.3881C18.2283 20.7607 17.9141 19.6148 17.2858 17.323L16.6489 15"
+                      stroke-width="1.5" stroke-linecap="round" />
+                  </svg></td>
+                <td> Max Contest
                   Rating: </td>
                 <td class="stats-num" id="max-rating">{{ maxRating }}</td>
               </tr>
-              <tr style="animation-delay: 1000ms">
+              <tr style="animation-delay: 1000ms;">
                 <td class="stats-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
-                    class="bi bi-check2-all octicon" viewBox="0 0 16 16">
+                  <svg class="octicon" width="20" height="20"
+                    viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
-                      d="M14.5 2h-3c-0.011 0 -0.02 0.005 -0.03 0.006 -0.326 -0.562 -0.683 -0.872 -0.71 -0.893A0.501 0.501 0 0 0 10.443 1h-4.886a0.497 0.497 0 0 0 -0.317 0.114c-0.026 0.021 -0.385 0.331 -0.71 0.893C4.52 2.006 4.511 2 4.5 2H1.5a0.498 0.498 0 0 0 -0.497 0.555c0.17 1.53 1.284 4.469 4.257 4.888a12.252 12.252 0 0 0 1.155 1.401c0.024 0.025 0.056 0.039 0.084 0.059V10h-1a0.5 0.5 0 0 0 -0.5 0.5v1.5H4a0.5 0.5 0 0 0 -0.5 0.5v2a0.5 0.5 0 0 0 0.5 0.5h8a0.5 0.5 0 0 0 0.5 -0.5v-2a0.5 0.5 0 0 0 -0.5 -0.5h-1v-1.5a0.5 0.5 0 0 0 -0.5 -0.5h-1v-1.097c0.029 -0.019 0.06 -0.034 0.084 -0.059a12.315 12.315 0 0 0 1.155 -1.401c2.974 -0.418 4.088 -3.357 4.257 -4.888a0.498 0.498 0 0 0 -0.124 -0.389A0.495 0.495 0 0 0 14.5 2zM2.102 3h2.028c-0.058 0.227 -0.105 0.466 -0.121 0.732 -0.051 0.805 0.129 1.639 0.534 2.497C2.926 5.574 2.314 3.887 2.102 3zM11.5 14H4.5v-1h7v1zm-1.5 -2h-4v-1h4v1zm-2.5 -2v-1h1v1h-1zm1.505 -2h-2.01c-1.391 -1.51 -2.061 -2.917 -1.99 -4.184 0.053 -0.962 0.527 -1.576 0.752 -1.815h4.486c0.226 0.241 0.699 0.855 0.752 1.816 0.07 1.268 -0.599 2.675 -1.99 4.184zm2.455 -1.776c0.404 -0.856 0.583 -1.689 0.532 -2.494A3.913 3.913 0 0 0 11.871 3h2.023c-0.218 0.882 -0.839 2.568 -2.434 3.224z" />
-                  </svg>
-                  Contests:
-              </td>
+                      d="M4.97883 9.68508C2.99294 8.89073 2 8.49355 2 8C2 7.50645 2.99294 7.10927 4.97883 6.31492L7.7873 5.19153C9.77318 4.39718 10.7661 4 12 4C13.2339 4 14.2268 4.39718 16.2127 5.19153L19.0212 6.31492C21.0071 7.10927 22 7.50645 22 8C22 8.49355 21.0071 8.89073 19.0212 9.68508L16.2127 10.8085C14.2268 11.6028 13.2339 12 12 12C10.7661 12 9.77318 11.6028 7.7873 10.8085L4.97883 9.68508Z"
+                      stroke-width="1.5" />
+                    <path
+                      d="M5.76613 10L4.97883 10.3149C2.99294 11.1093 2 11.5065 2 12C2 12.4935 2.99294 12.8907 4.97883 13.6851L7.7873 14.8085C9.77318 15.6028 10.7661 16 12 16C13.2339 16 14.2268 15.6028 16.2127 14.8085L19.0212 13.6851C21.0071 12.8907 22 12.4935 22 12C22 11.5065 21.0071 11.1093 19.0212 10.3149L18.2339 10"
+                      stroke-width="1.5" />
+                    <path
+                      d="M5.76613 14L4.97883 14.3149C2.99294 15.1093 2 15.5065 2 16C2 16.4935 2.99294 16.8907 4.97883 17.6851L7.7873 18.8085C9.77318 19.6028 10.7661 20 12 20C13.2339 20 14.2268 19.6028 16.2127 18.8085L19.0212 17.6851C21.0071 16.8907 22 16.4935 22 16C22 15.5065 21.0071 15.1093 19.0212 14.3149L18.2339 14"
+                      stroke-width="1.5" />
+                  </svg></td>
+                <td> Rated Contests: </td>
                 <td class="stats-num" id="contests">{{ contestsCount }}</td>
               </tr>
-              <tr style="animation-delay: 1200ms">
+              <tr style="animation-delay: 1200ms;">
                 <td class="stats-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
-                    class="bi bi-check2-all octicon" viewBox="0 0 16 16">
-                    <path
-                      d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z" />
-                    <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z" />
-                  </svg>Problems
-                  Solved: </td>
+                  <svg class="octicon" width="20" height="20"
+                    viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                      <path
+                        d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z"
+                        stroke-width="1.5"></path>
+                      <path d="M6 15.8L7.14286 17L10 14" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M6 8.8L7.14286 10L10 7" stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                      <path d="M13 9L18 9" stroke-width="1.5"
+                        stroke-linecap="round"></path>
+                      <path d="M13 16L18 16" stroke-width="1.5"
+                        stroke-linecap="round"></path>
+                    </g>
+                  </svg></td>
+                <td>
+                  Problems Solved: </td>
                 <td class="stats-num" id="problems-solved">{{ problemsSolved }}</td>
               </tr>
-              <tr style="animation-delay: 1400ms">
+              <tr style="animation-delay: 1200ms;">
                 <td class="stats-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
-                    class="bi bi-x-lg octicon" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                      d="M2.333 5.333a3.667 3.667 0 1 1 5.731 3.031 6.003 6.003 0 0 1 3.933 5.453.5.5 0 0 1-1 .03 5 5 0 0 0-9.995 0 .5.5 0 0 1-.999-.029 6.003 6.003 0 0 1 3.933-5.454 3.663 3.663 0 0 1-1.603-3.031zM6 2.667A2.667 2.667 0 1 0 6 8a2.667 2.667 0 0 0 0-5.333z" />
+                  <svg class="octicon" width="20" height="20" viewBox="0 0 24 24"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 10L13 10" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M10 3H16.5C16.9644 3 17.1966 3 17.3916 3.02567C18.7378 3.2029 19.7971 4.26222 19.9743 5.60842C20 5.80337 20 6.03558 20 6.5" stroke-width="1.5"/>
+                    <path d="M2 6.94975C2 6.06722 2 5.62595 2.06935 5.25839C2.37464 3.64031 3.64031 2.37464 5.25839 2.06935C5.62595 2 6.06722 2 6.94975 2C7.33642 2 7.52976 2 7.71557 2.01738C8.51665 2.09229 9.27652 2.40704 9.89594 2.92051C10.0396 3.03961 10.1763 3.17633 10.4497 3.44975L11 4C11.8158 4.81578 12.2237 5.22367 12.7121 5.49543C12.9804 5.64471 13.2651 5.7626 13.5604 5.84678C14.0979 6 14.6747 6 15.8284 6H16.2021C18.8345 6 20.1506 6 21.0062 6.76946C21.0849 6.84024 21.1598 6.91514 21.2305 6.99383C22 7.84935 22 9.16554 22 11.7979V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V6.94975Z" stroke-width="1.5"/>
+                  </svg></td>
+                <td> Submissions: </td>
+                <td class="stats-num" id="problems-solved">{{ submissions }}</td>
+              </tr>
+              <tr style="animation-delay: 1400ms;">
+                <td class="stats-label">
+                  <svg class="octicon" width="20" height="20" viewBox="0 0 24 24"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="9" cy="6" r="4" stroke-width="1.5" />
+                    <path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3"
+                      stroke-width="1.5" stroke-linecap="round" />
+                    <ellipse cx="9" cy="17" rx="7" ry="4" stroke-width="1.5" />
                     <path
-                      d="M11.527 5.333c-.099 0-.195.007-.289.02a.5.5 0 1 1-.141-.989 3.02 3.02 0 0 1 2.253 5.398 4.46 4.46 0 0 1 2.637 4.071.5.5 0 0 1-1 0 3.462 3.462 0 0 0-2.464-3.315l-.356-.107V9.294l.273-.139a2.02 2.02 0 0 0-.913-3.822z" />
-                  </svg>Friends
+                      d="M18 14C19.7542 14.3847 21 15.3589 21 16.5C21 17.5293 19.9863 18.4229 18.5 18.8704"
+                      stroke-width="1.5" stroke-linecap="round" />
+                  </svg></td>
+                <td>Friend
                   of: </td>
                 <td class="stats-num" id="friend-of-count">{{ friendOfCount }}</td>
               </tr>
-              <tr style="animation-delay: 1600ms">
+              <tr style="animation-delay: 1600ms;">
                 <td class="stats-label">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor"
-                    class="bi bi-ui-checks-grid octicon" viewBox="0 0 16 16">
+                  <svg class="octicon" width="20" height="20" viewBox="0 0 24 24"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
-                      d="M2 10h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1zm9-9h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm0 9a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-3zm0-10a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h3a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2h-3zM2 9a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h3a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H2zm7 2a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2v-3zM0 2a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.354.854a.5.5 0 1 0-.708-.708L3 3.793l-.646-.647a.5.5 0 1 0-.708.708l1 1a.5.5 0 0 0 .708 0l2-2z" />
-                  </svg>
-                  Contributions:
-              </td>
+                      d="M18.18 8.03933L18.6435 7.57589C19.4113 6.80804 20.6563 6.80804 21.4241 7.57589C22.192 8.34374 22.192 9.58868 21.4241 10.3565L20.9607 10.82M18.18 8.03933C18.18 8.03933 18.238 9.02414 19.1069 9.89309C19.9759 10.762 20.9607 10.82 20.9607 10.82M18.18 8.03933L13.9194 12.2999C13.6308 12.5885 13.4865 12.7328 13.3624 12.8919C13.2161 13.0796 13.0906 13.2827 12.9882 13.4975C12.9014 13.6797 12.8368 13.8732 12.7078 14.2604L12.2946 15.5L12.1609 15.901M20.9607 10.82L16.7001 15.0806C16.4115 15.3692 16.2672 15.5135 16.1081 15.6376C15.9204 15.7839 15.7173 15.9094 15.5025 16.0118C15.3203 16.0986 15.1268 16.1632 14.7396 16.2922L13.5 16.7054L13.099 16.8391M13.099 16.8391L12.6979 16.9728C12.5074 17.0363 12.2973 16.9867 12.1553 16.8447C12.0133 16.7027 11.9637 16.4926 12.0272 16.3021L12.1609 15.901M13.099 16.8391L12.1609 15.901"
+                      stroke-width="1.5" />
+                    <path d="M8 13H10.5" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M8 9H14.5" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M8 17H9.5" stroke-width="1.5" stroke-linecap="round" />
+                    <path
+                      d="M19.8284 3.17157C18.6569 2 16.7712 2 13 2H11C7.22876 2 5.34315 2 4.17157 3.17157C3 4.34315 3 6.22876 3 10V14C3 17.7712 3 19.6569 4.17157 20.8284C5.34315 22 7.22876 22 11 22H13C16.7712 22 18.6569 22 19.8284 20.8284C20.7715 19.8853 20.9554 18.4796 20.9913 16"
+                      stroke-width="1.5" stroke-linecap="round" />
+                  </svg></td>
+                <td>
+                  Contribution: </td>
                 <td class="stats-num" id="contribution">{{ contribution }}</td>
               </tr>
             </tbody>

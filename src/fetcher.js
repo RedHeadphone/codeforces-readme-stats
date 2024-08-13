@@ -5,7 +5,10 @@ function fetch_error_handler(fetch, username, last_cache) {
   return new Promise((resolve, reject) => {
     const timeoutID = setTimeout(function () {
       const res = last_cache.get(username);
-      if (res != null) resolve(res);
+      if (res != null) {
+        console.log("Using cached data for", username);
+        resolve(res);
+      }
       else reject({ status: 500, error: "Codeforces Server Error" });
     }, 2000);
     fetch()
@@ -52,6 +55,7 @@ export function get_rating(username, cache_seconds) {
             resolve(res);
           })
           .catch((error) => {
+            console.error(error);
             if (error.response.status === 400)
               reject({ status: 400, error: "Codeforces Handle Not Found" });
             else reject({ status: 500, error: "Codeforces Server Error" });
@@ -98,6 +102,7 @@ export function get_stats(username, cache_seconds) {
               .replace("undefined", "")
               .trim();
             const contestsCount = responses[1].data.result.length;
+            const submissions = responses[2].data.result.length;
             const problemsSolved = count_submissions(responses[2].data.result);
 
             const res = {
@@ -109,6 +114,7 @@ export function get_stats(username, cache_seconds) {
               maxRank,
               contestsCount,
               problemsSolved,
+              submissions,
               friendOfCount,
               contribution,
             };
@@ -117,6 +123,7 @@ export function get_stats(username, cache_seconds) {
             resolve(res);
           })
           .catch((error) => {
+            console.error(error);
             if (error.response.status === 400)
               reject({ status: 400, error: "Codeforces Handle Not Found" });
             else reject({ status: 500, error: "Codeforces Server Error" });
