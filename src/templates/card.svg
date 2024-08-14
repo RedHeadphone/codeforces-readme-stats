@@ -34,7 +34,7 @@
       table-layout: auto;
     }
 
-    .header-td {
+    #header {
       padding: 0 0 8px 4px;
       color: #{{ theme.title_color }};
       font-size: 22px;
@@ -44,17 +44,21 @@
       align-items: center;
     }
 
-    .stats-label{
-      width: 20px;
+    #logo {
+      margin-right: 14px;
     }
 
-    .main-stats {
+    #main-stats {
       width: 100%;
     }
 
-    .main-stats tbody tr {
+    #main-stats tbody tr {
       margin-bottom: 6px;
       height: 28px;
+    }
+
+    .stats-icon {
+      width: 20px;
     }
 
     .stats-num {
@@ -62,17 +66,13 @@
       padding-right: 3px;
     }
 
-    .logo {
-      margin-right: 14px;
-    }
-
-    .ranks{
+    #ranks {
       padding-bottom: 12px;
     }
 
     {% if show_icons %}
 
-    .octicon {
+    .stats-icon svg {
       stroke: #{{ theme.icon_color }};
       vertical-align: middle;
       display: inline-block;
@@ -82,7 +82,7 @@
 
     {% else %}
 
-    .octicon {
+    .stats-icon svg {
       display: none;
     }
 
@@ -118,8 +118,8 @@
           <table>
             <thead>
               <tr>
-                <td class="header-td">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="logo" width="22" height="20"
+                <td id="header">
+                  <svg xmlns="http://www.w3.org/2000/svg" id="logo" width="22" height="20"
                     viewBox="0 0 29 25" fill="none">
                     <rect y="6" width="7" height="18.125" rx="2" fill="#FFC107" />
                     <rect x="22" y="10.125" width="7" height="14" rx="2" fill="#F44336" />
@@ -129,7 +129,7 @@
                 </td>
               </tr>
               <tr style="animation-delay: 300ms;">
-                <td class="ranks">
+                <td id="ranks">
                   <span style="color: {{ rankColor }};" id="rank">{{ rank }}</span>
                   {% if breakBetweenRank %}<br/>{% endif %} (max: <span
                     style="color: {{ maxRankColor }};" id="max-rank">{{
@@ -137,11 +137,11 @@
               </tr>
             </thead>
           </table>
-          <table class="main-stats">
+          <table id="main-stats">
             <tbody>
               <tr style="animation-delay: 600ms;">
-                <td class="stats-label">
-                  <svg class="octicon" width="20" height="20" fill="none"
+                <td class="stats-icon">
+                  <svg width="20" height="20" fill="none"
                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="9" r="7" stroke-width="1.5" />
                     <path
@@ -153,8 +153,8 @@
                 <td class="stats-num" id="rating">{{ rating }}</td>
               </tr>
               <tr style="animation-delay: 800ms;">
-                <td class="stats-label">
-                  <svg class="octicon" width="20" height="20"
+                <td class="stats-icon">
+                  <svg width="20" height="20"
                     viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M11.1459 7.02251C11.5259 6.34084 11.7159 6 12 6C12.2841 6 12.4741 6.34084 12.8541 7.02251L12.9524 7.19887C13.0603 7.39258 13.1143 7.48944 13.1985 7.55334C13.2827 7.61725 13.3875 7.64097 13.5972 7.68841L13.7881 7.73161C14.526 7.89857 14.895 7.98205 14.9828 8.26432C15.0706 8.54659 14.819 8.84072 14.316 9.42898L14.1858 9.58117C14.0429 9.74833 13.9714 9.83191 13.9392 9.93531C13.9071 10.0387 13.9179 10.1502 13.9395 10.3733L13.9592 10.5763C14.0352 11.3612 14.0733 11.7536 13.8435 11.9281C13.6136 12.1025 13.2682 11.9435 12.5773 11.6254L12.3986 11.5431C12.2022 11.4527 12.1041 11.4075 12 11.4075C11.8959 11.4075 11.7978 11.4527 11.6014 11.5431L11.4227 11.6254C10.7318 11.9435 10.3864 12.1025 10.1565 11.9281C9.92674 11.7536 9.96476 11.3612 10.0408 10.5763L10.0605 10.3733C10.0821 10.1502 10.0929 10.0387 10.0608 9.93531C10.0286 9.83191 9.95713 9.74833 9.81418 9.58117L9.68403 9.42898C9.18097 8.84072 8.92945 8.54659 9.01723 8.26432C9.10501 7.98205 9.47396 7.89857 10.2119 7.73161L10.4028 7.68841C10.6125 7.64097 10.7173 7.61725 10.8015 7.55334C10.8857 7.48944 10.9397 7.39258 11.0476 7.19887L11.1459 7.02251Z"
@@ -171,8 +171,8 @@
                 <td class="stats-num" id="max-rating">{{ maxRating }}</td>
               </tr>
               <tr style="animation-delay: 1000ms;">
-                <td class="stats-label">
-                  <svg class="octicon" width="20" height="20"
+                <td class="stats-icon">
+                  <svg width="20" height="20"
                     viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M4.97883 9.68508C2.99294 8.89073 2 8.49355 2 8C2 7.50645 2.99294 7.10927 4.97883 6.31492L7.7873 5.19153C9.77318 4.39718 10.7661 4 12 4C13.2339 4 14.2268 4.39718 16.2127 5.19153L19.0212 6.31492C21.0071 7.10927 22 7.50645 22 8C22 8.49355 21.0071 8.89073 19.0212 9.68508L16.2127 10.8085C14.2268 11.6028 13.2339 12 12 12C10.7661 12 9.77318 11.6028 7.7873 10.8085L4.97883 9.68508Z"
@@ -188,8 +188,8 @@
                 <td class="stats-num" id="contests">{{ contestsCount }}</td>
               </tr>
               <tr style="animation-delay: 1200ms;">
-                <td class="stats-label">
-                  <svg class="octicon" width="20" height="20"
+                <td class="stats-icon">
+                  <svg width="20" height="20"
                     viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -213,8 +213,8 @@
                 <td class="stats-num" id="problems-solved">{{ problemsSolved }}</td>
               </tr>
               <tr style="animation-delay: 1200ms;">
-                <td class="stats-label">
-                  <svg class="octicon" width="20" height="20" viewBox="0 0 24 24"
+                <td class="stats-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24"
                     fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18 10L13 10" stroke-width="1.5" stroke-linecap="round"/>
                     <path d="M10 3H16.5C16.9644 3 17.1966 3 17.3916 3.02567C18.7378 3.2029 19.7971 4.26222 19.9743 5.60842C20 5.80337 20 6.03558 20 6.5" stroke-width="1.5"/>
@@ -224,8 +224,8 @@
                 <td class="stats-num" id="problems-solved">{{ submissions }}</td>
               </tr>
               <tr style="animation-delay: 1400ms;">
-                <td class="stats-label">
-                  <svg class="octicon" width="20" height="20" viewBox="0 0 24 24"
+                <td class="stats-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24"
                     fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="9" cy="6" r="4" stroke-width="1.5" />
                     <path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3"
@@ -240,8 +240,8 @@
                 <td class="stats-num" id="friend-of-count">{{ friendOfCount }}</td>
               </tr>
               <tr style="animation-delay: 1600ms;">
-                <td class="stats-label">
-                  <svg class="octicon" width="20" height="20" viewBox="0 0 24 24"
+                <td class="stats-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24"
                     fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M18.18 8.03933L18.6435 7.57589C19.4113 6.80804 20.6563 6.80804 21.4241 7.57589C22.192 8.34374 22.192 9.58868 21.4241 10.3565L20.9607 10.82M18.18 8.03933C18.18 8.03933 18.238 9.02414 19.1069 9.89309C19.9759 10.762 20.9607 10.82 20.9607 10.82M18.18 8.03933L13.9194 12.2999C13.6308 12.5885 13.4865 12.7328 13.3624 12.8919C13.2161 13.0796 13.0906 13.2827 12.9882 13.4975C12.9014 13.6797 12.8368 13.8732 12.7078 14.2604L12.2946 15.5L12.1609 15.901M20.9607 10.82L16.7001 15.0806C16.4115 15.3692 16.2672 15.5135 16.1081 15.6376C15.9204 15.7839 15.7173 15.9094 15.5025 16.0118C15.3203 16.0986 15.1268 16.1632 14.7396 16.2922L13.5 16.7054L13.099 16.8391M13.099 16.8391L12.6979 16.9728C12.5074 17.0363 12.2973 16.9867 12.1553 16.8447C12.0133 16.7027 11.9637 16.4926 12.0272 16.3021L12.1609 15.901M13.099 16.8391L12.1609 15.901"

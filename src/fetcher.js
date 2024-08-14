@@ -10,7 +10,7 @@ function fetch_error_handler(fetch, username, last_cache) {
         resolve(res);
       }
       else reject({ status: 500, error: "Codeforces Server Error" });
-    }, 2000);
+    }, 4000);
     fetch()
       .then((result) => {
         clearTimeout(timeoutID);

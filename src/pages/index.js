@@ -16,56 +16,74 @@ import {
 
 import themes from "@/themes.js";
 import Logo from "@/images/logo.png";
+import Error from "@/images/error.svg";
 import useOption from "@/hooks/option.js";
 
 export default function Home() {
-  const { options, setOptions, getImgUrl, error, setError, updateQuerystring } =
-    useOption();
+  const {
+    options,
+    setOptions,
+    imageUrl,
+    updateImage,
+    error,
+    setError,
+    loading,
+    setLoading,
+    checkHandleNotFound,
+  } = useOption();
   const [api, contextHolder] = notification.useNotification();
 
-  const openNotification = (placement) => {
+  const openNotification = (message, description) => {
     api.info({
-      message: "Success",
-      description: `Copied to clipboard!`,
-      placement,
+      message,
+      description,
+      placement: "topRight",
+      duration: 3,
     });
   };
 
-  const onOpenInNewTab = () => {
-    window.open(getImgUrl(), "_blank");
-  };
-
-  const onError = () => {
-    setError(true);
-  };
-
-  const onFieldsChange = async (changed_value, values) => {
+  const handleFieldsChange = async (changed_value) => {
     setOptions((prev) => {
       const newOptions = {
         ...prev,
         [changed_value[0].name]: changed_value[0].value,
       };
       if (changed_value[0].name[0] !== "username") {
-        updateQuerystring(newOptions);
+        updateImage(newOptions);
       }
       return newOptions;
     });
   };
 
-  const onCopyMarkdown = () => {
+  const handleCopyMarkdown = () => {
     navigator.clipboard.writeText(
       `[![Codeforces Stats](${
         window.location.href.substring(
           0,
           window.location.href.lastIndexOf("/")
-        ) + getImgUrl()
+        ) + imageUrl
       })](https://codeforces.com/profile/${options.username})`
     );
-    openNotification("topRight");
+    openNotification("Success", "Copied to clipboard!");
   };
 
-  const onUsernameEnter = () => {
-    updateQuerystring(options);
+  const handleOpenInNewTab = () => {
+    window.open(imageUrl, "_blank");
+  };
+
+  const handleUsernameEnter = () => {
+    checkHandleNotFound().then(() => {
+      openNotification("Error", "Handle not found!");
+    });
+    updateImage(options);
+  };
+
+  const handleError = () => {
+    setError(true);
+  };
+
+  const handleLoad = () => {
+    setLoading(false);
   };
 
   return (
@@ -92,7 +110,7 @@ export default function Home() {
                   layout="horizontal"
                   labelCol={{ span: 9 }}
                   initialValues={options}
-                  onFieldsChange={onFieldsChange}
+                  onFieldsChange={handleFieldsChange}
                 >
                   <Form.Item
                     className="form-item"
@@ -105,7 +123,11 @@ export default function Home() {
                       },
                     ]}
                   >
-                    <Input autoComplete="off" spellCheck={false} onPressEnter={onUsernameEnter} />
+                    <Input
+                      autoComplete="off"
+                      spellCheck={false}
+                      onPressEnter={handleUsernameEnter}
+                    />
                   </Form.Item>
                   <Form.Item className="form-item" label="Theme" name="theme">
                     <Select
@@ -152,15 +174,15 @@ export default function Home() {
                     <Space className="submit-wrapper">
                       <Button
                         type="primary"
-                        onClick={onCopyMarkdown}
-                        disabled={error}
+                        onClick={handleCopyMarkdown}
+                        disabled={error || loading}
                       >
                         Copy Markdown
                       </Button>
                       <Button
                         type="default"
-                        onClick={onOpenInNewTab}
-                        disabled={error}
+                        onClick={handleOpenInNewTab}
+                        disabled={error || loading}
                       >
                         Open Image in new tab
                         <ExportOutlined />
@@ -172,10 +194,11 @@ export default function Home() {
 
               <Col className="image-output">
                 <img
-                  src={getImgUrl()}
+                  src={error ? Error.src : imageUrl}
                   alt="Codeforces-Stats"
                   fill="width"
-                  onError={onError}
+                  onLoad={handleLoad}
+                  onError={handleError}
                 />
               </Col>
             </Row>

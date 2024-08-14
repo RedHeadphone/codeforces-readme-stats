@@ -1,6 +1,5 @@
 import useLocalStorageState from "use-local-storage-state";
 import qs from "fast-querystring";
-import Error from "@/images/error.svg";
 
 const defaultOption = {
   username: "redheadphone",
@@ -14,29 +13,45 @@ const useOption = () => {
   const [options, setOptions] = useLocalStorageState("options", {
     defaultValue: defaultOption,
   });
-  const [querystring, setQuerystring] = useLocalStorageState("querystring", {
+  const [imageUrl, setImageUrl] = useLocalStorageState("imageUrl", {
     defaultValue: qs.stringify(options),
   });
   const [error, setError] = useLocalStorageState("error", {
     defaultValue: false,
   });
+  const [loading, setLoading] = useLocalStorageState("loading", {
+    defaultValue: true,
+  });
 
-  const getImgUrl = (query = querystring) => {
-    return error ? Error.src : `/api/card?${query}`;
+  const updateImage = (newOptions) => {
+    const newImageUrl = `/api/card?${qs.stringify(newOptions)}`;
+    if (newImageUrl != imageUrl || error) setLoading(true);
+    setError(false);
+    setImageUrl(newImageUrl);
   };
 
-  const updateQuerystring = (newOptions) => {
-    setError(false);
-    setQuerystring(qs.stringify(newOptions));
+  const checkHandleNotFound = () => {
+    return new Promise((resolve) => {
+      fetch(
+        `https://codeforces.com/api/user.info?handles=${options.username}`
+      ).then((res) => {
+        if (res.status === 400) {
+          resolve();
+        }
+      });
+    });
   };
 
   return {
     options,
     setOptions,
-    getImgUrl,
+    imageUrl,
+    updateImage,
     error,
     setError,
-    updateQuerystring,
+    loading,
+    setLoading,
+    checkHandleNotFound,
   };
 };
 
