@@ -86,6 +86,10 @@
       display: none;
     }
 
+    .stats-icon {
+      width: 0px;
+    }
+
     {% endif %}
 
     {% if animation %}

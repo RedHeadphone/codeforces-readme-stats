@@ -1,5 +1,10 @@
 import Image from "next/image";
-import { GithubFilled, BookFilled, ExportOutlined } from "@ant-design/icons";
+import {
+  GithubFilled,
+  BookFilled,
+  ExportOutlined,
+  CopyOutlined,
+} from "@ant-design/icons";
 import {
   Space,
   Card,
@@ -11,6 +16,7 @@ import {
   Button,
   Divider,
   Row,
+  Spin,
   notification,
 } from "antd";
 
@@ -123,11 +129,21 @@ export default function Home() {
                       },
                     ]}
                   >
-                    <Input
-                      autoComplete="off"
-                      spellCheck={false}
-                      onPressEnter={handleUsernameEnter}
-                    />
+                    <Space.Compact
+                      style={{
+                        width: "100%",
+                      }}
+                    >
+                      <Input
+                        defaultValue={options.username}
+                        autoComplete="off"
+                        spellCheck={false}
+                        onPressEnter={handleUsernameEnter}
+                      />
+                      <Button type="primary" onClick={handleUsernameEnter}>
+                        Submit
+                      </Button>
+                    </Space.Compact>
                   </Form.Item>
                   <Form.Item className="form-item" label="Theme" name="theme">
                     <Select
@@ -173,10 +189,11 @@ export default function Home() {
                   <Form.Item className="form-item">
                     <Space className="submit-wrapper">
                       <Button
-                        type="primary"
+                        type="default"
                         onClick={handleCopyMarkdown}
                         disabled={error || loading}
                       >
+                        <CopyOutlined />
                         Copy Markdown
                       </Button>
                       <Button
@@ -184,8 +201,8 @@ export default function Home() {
                         onClick={handleOpenInNewTab}
                         disabled={error || loading}
                       >
-                        Open Image in new tab
                         <ExportOutlined />
+                        Open Image in new tab
                       </Button>
                     </Space>
                   </Form.Item>
@@ -193,13 +210,14 @@ export default function Home() {
               </Col>
 
               <Col className="image-output">
-                <img
-                  src={error ? Error.src : imageUrl}
-                  alt="Codeforces-Stats"
-                  fill="width"
-                  onLoad={handleLoad}
-                  onError={handleError}
-                />
+                <Spin spinning={loading}>
+                  <img
+                    src={error ? Error.src : imageUrl}
+                    alt="Codeforces-Stats"
+                    onLoad={handleLoad}
+                    onError={handleError}
+                  />
+                </Spin>
               </Col>
             </Row>
 
