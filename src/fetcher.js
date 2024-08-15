@@ -4,13 +4,18 @@ import { api, last_rating_cache, last_stats_cache } from "@/fetcher-utils.js";
 function fetch_error_handler(fetch, username, last_cache) {
   return new Promise((resolve, reject) => {
     const timeoutID = setTimeout(function () {
-      const res = last_cache.get(username);
-      if (res != null) {
-        console.log("Using cached data for", username);
-        resolve(res);
-      }
-      else reject({ status: 500, error: "Codeforces Server Error" });
-    }, 4000);
+      last_cache.get(username).then((res) => {
+        if (res != null) {
+          console.log("Using cached data for", username);
+          resolve(res);
+        }
+        else reject({ status: 500, error: "Codeforces Server Error" });
+      }).catch((error) => {
+        console.error(error);
+        reject({ status: 500, error: "Codeforces Server Error" });
+      });
+      
+    }, 5000);
     fetch()
       .then((result) => {
         clearTimeout(timeoutID);
@@ -51,12 +56,16 @@ export function get_rating(username, cache_seconds) {
           })
           .then((response) => {
             const res = response.data.result[0].rating || 0;
-            last_rating_cache.set(username, res);
+            try { 
+              last_rating_cache.set(username, res);
+            } catch (error) {
+              console.error(error);
+            }
             resolve(res);
           })
           .catch((error) => {
             console.error(error);
-            if (error.response.status === 400)
+            if (error.response && error.response.status === 400)
               reject({ status: 400, error: "Codeforces Handle Not Found" });
             else reject({ status: 500, error: "Codeforces Server Error" });
           });
@@ -118,13 +127,17 @@ export function get_stats(username, cache_seconds) {
               friendOfCount,
               contribution,
             };
-
-            last_stats_cache.set(username, res);
+            
+            try {
+              last_stats_cache.set(username, res);
+            } catch (error) {
+              console.error(error);
+            }
             resolve(res);
           })
           .catch((error) => {
             console.error(error);
-            if (error.response.status === 400)
+            if (error.response && error.response.status === 400)
               reject({ status: 400, error: "Codeforces Handle Not Found" });
             else reject({ status: 500, error: "Codeforces Server Error" });
           });

@@ -32,10 +32,13 @@ describe("card handler", () => {
       send: jest.fn(),
       status: jest.fn().mockReturnThis(),
     };
+
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.useRealTimers();
   });
 
   it("should return a valid SVG response with proper headers", async () => {
@@ -95,8 +98,17 @@ describe("card handler", () => {
         status: 403,
       },
     });
+    last_stats_cache.get = () => {
+      return new Promise((resolve) => {
+        resolve(undefined);
+      })
+    };
 
-    await handler(req, res);
+    const promise = handler(req, res);
+
+    jest.advanceTimersByTime(5000);
+
+    await promise;
 
     expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "text/plain");
     expect(res.setHeader).toHaveBeenCalledWith(

@@ -30,10 +30,13 @@ describe("badge handler", () => {
       send: jest.fn(),
       status: jest.fn().mockReturnThis(),
     };
+
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.useRealTimers();
   });
 
   it("should return a valid SVG response with proper headers", async () => {
@@ -122,7 +125,17 @@ describe("badge handler", () => {
       },
     });
 
-    await handler(req, res);
+    last_rating_cache.get = () => {
+      return new Promise((resolve) => {
+        resolve(undefined);
+      })
+    };
+
+    const promise = handler(req, res);
+
+    jest.advanceTimersByTime(5000);
+
+    await promise;
 
     expect(res.setHeader).toHaveBeenCalledWith("Content-Type", "text/plain");
     expect(res.setHeader).toHaveBeenCalledWith(
