@@ -106,7 +106,7 @@ describe("card handler", () => {
 
     const promise = handler(req, res);
 
-    jest.advanceTimersByTime(5000);
+    jest.advanceTimersByTime(3000);
 
     await promise;
 
