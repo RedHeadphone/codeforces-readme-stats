@@ -1,4 +1,5 @@
 import useLocalStorageState from "use-local-storage-state";
+import { useState } from "react";
 import qs from "fast-querystring";
 
 const defaultOption = {
@@ -13,15 +14,9 @@ const useOption = () => {
   const [options, setOptions] = useLocalStorageState("options", {
     defaultValue: defaultOption,
   });
-  const [imageUrl, setImageUrl] = useLocalStorageState("imageUrl", {
-    defaultValue: qs.stringify(options),
-  });
-  const [error, setError] = useLocalStorageState("error", {
-    defaultValue: false,
-  });
-  const [loading, setLoading] = useLocalStorageState("loading", {
-    defaultValue: true,
-  });
+  const [imageUrl, setImageUrl] = useState(`/api/card?${qs.stringify(options)}`);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const updateImage = (newOptions) => {
     const newImageUrl = `/api/card?${qs.stringify(newOptions)}`;

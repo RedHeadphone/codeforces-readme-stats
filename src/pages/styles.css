@@ -33,7 +33,7 @@ a {
 }
 
 .header-title {
-  margin-left: 10px;
+  margin-left: 2px;
 }
 
 .form {
@@ -47,7 +47,7 @@ a {
 .submit-wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .image-output {

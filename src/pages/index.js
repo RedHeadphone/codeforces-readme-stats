@@ -100,7 +100,7 @@ export default function Home() {
           <Col className="card-col">
             <div className="header">
               <Space>
-                <Image src={Logo} alt="Logo" width={35} height={35} />
+                <Image src={Logo} alt="Logo" width={28} height={28} />
                 <h1 className="header-title">Codeforces Readme Stats</h1>
               </Space>
               <p>
